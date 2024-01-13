@@ -1,0 +1,218 @@
+" Source the beggar's Helix configuration for IdeaVim.
+source ~/dotfiles/ideavim/ideavim-helix/helix.vim
+
+
+""" Plugins section.
+" REFERENCE: https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins
+
+"" Navigate file tree w/ vim keys.
+" REFERENCE: https://github.com/JetBrains/ideavim/wiki/NERDTree-support
+set NERDTree
+
+"" Cycle through context-aware options.
+" REFERENCE: https://plugins.jetbrains.com/plugin/25899-vim-switch
+
+" Enable patterns.
+let g:switch_definitions = 'group:basic,group:java,group:javascript,group:scala'
+
+" Enable the plugin.
+set switch
+
+
+""" Mappings section.
+
+"" Utility mapping functions.
+
+" The value of this counter is used to generate dynamically new variable symbols
+" to be used to create descriptions for `which-key`.
+let s:VarNameCounter = 0
+
+" Create a mapping for a `key_sequence` with an `action` and a description from
+" the `which-key` plugin.
+function! s:MapWithDescription(key_sequence, action, description)
+    " Construct a Vimscript mapping statement dynamically and run it.
+    exec "map " . a:key_sequence . " " . a:action
+
+    " Create a `which-key`-specific variable dynamically and assign it.
+    let s:VarNameCounter += 1
+    let variable_name = "WhichKeyDesc_GeneratedName_" . s:VarNameCounter
+    let mapping_with_description = a:key_sequence . " " . a:description
+
+    exec "let g:" . variable_name . " = '" . mapping_with_description . "'"
+endfunction
+
+" Same as s:MapWithDescription except that this function accepts an array of
+" arrays that are arguments for the above function.
+function! s:MapMultiWithDescription(mapping_arrays)
+    for mapping in a:mapping_arrays
+        call s:MapWithDescription(mapping[0], mapping[1], mapping[2])
+    endfor
+endfunction
+
+" Similar to s:MapMultiWithDescription but also accepts a `group_key_leader` and
+" and `group_name`, which are used to create a mapping group with a `which-key`
+" description. Also, the key sequence part in the `mapping_arrays` is considered
+" to be a suffix of the `group_key_leader` and is mapped accordingly.
+function! s:MapGroupWithDescriptions(group_key_leader, group_name, mapping_arrays)
+    " Create a `which-key` description for the group.
+    let s:VarNameCounter += 1
+    let variable_name = "WhichKeyDesc_GeneratedName_" . s:VarNameCounter
+    let mapping_with_description = a:group_key_leader . " " . a:group_name
+
+    exec "let g:" . variable_name . " = '" . mapping_with_description . "'"
+
+    " Map all the provided mapping while concatenating the group leader keys
+    " with the mapping suffixes.
+    for mapping in a:mapping_arrays
+        call s:MapWithDescription(
+            \a:group_key_leader . mapping[0],
+            \mapping[1],
+            \mapping[2])
+    endfor
+endfunction
+
+"" Mappings.
+
+" Center screen on page movement.
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" Add references to qflist
+map <C-q> <Action>(FindUsages)
+
+" Invoke completions.
+map <C-x><C-x> <Action>(CodeCompletion)
+map <C-x><C-t> <Action>(SmartTypeCompletion)
+map <C-x><C-s> <Action>(EditorCompleteStatement)
+
+" Copilot completion actions.
+map <C-x><C-c> <Action>(copilot.requestCompletions)
+map <C-x><C-p> <Action>(copilot.cyclePrevInlays)
+map <C-x><C-n> <Action>(copilot.cycleNextInlays)
+
+" Move between live template variables (i.e. snippet tabstops).
+map <C-h> <Action>(PreviousTemplateVariable)
+map <C-l> <Action>(NextTemplateVariable)
+
+" Add current file to Harpoon.
+map <C-a> <Action>(HarpoonerAddFile)
+
+" Move between files saved to Harpoon.
+map <C-j> <Action>(HarpoonerNextFileAction)'
+map <C-k> <Action>(HarpoonerPreviousFileAction)
+
+map <C-1> <Action>(HarpoonerOpenFile0)
+map <C-2> <Action>(HarpoonerOpenFile1)
+map <C-3> <Action>(HarpoonerOpenFile2)
+map <C-4> <Action>(HarpoonerOpenFile3)
+map <C-5> <Action>(HarpoonerOpenFile4)
+map <C-6> <Action>(HarpoonerOpenFile5)
+map <C-7> <Action>(HarpoonerOpenFile6)
+map <C-8> <Action>(HarpoonerOpenFile7)
+map <C-9> <Action>(HarpoonerOpenFile8)
+map <C-0> <Action>(HarpoonerOpenFile9)
+
+" Show diagnostics and extra information.
+map <C-k><C-p> <Action>(ParameterInfo)
+map <C-k><C-t> <Action>(ExpressionTypeInfo)
+map <C-k><C-d> <Action>(ShowErrorDescription)
+
+" Toggle tool windows.
+map <C-w>t <Action>(HideAllWindows)
+
+" Fold toggling action.
+call s:MapWithDescription('za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
+
+"" Additional Left/Right bracket mode mappings.
+
+call s:MapMultiWithDescription([
+    \['[q', '<Action>(PreviousOccurence)', 'Goto previous qflist item'],
+    \[']q', '<Action>(NextOccurence)', 'Goto next qflist item'],
+    \])
+
+"" Additional Goto mode mappings.
+
+call s:MapMultiWithDescription([
+    \['gI', '<Action>(GotoSuperMethod)', 'Goto super'],
+    \['gT', '<Action>(GotoTest)', 'Goto test/implementation'],
+    \])
+
+"" Additional Space mode mappings.
+
+call s:MapMultiWithDescription([
+    \['<leader>q', '<Action>(ActivateFindToolWindow)', 'Open qflist tool window'],
+    \['<leader>m', '<Action>(ShowBookmarks)', 'Open bookmarks picker'],
+    \])
+
+"" Actions mode.
+
+call s:MapGroupWithDescriptions('<leader>A', 'Actions', [
+    \['f', '<Action>(ReformatCode)', 'Format code'],
+    \['o', '<Action>(OptimizeImports)', 'Optimize imports'],
+    \['g', '<Action>(Generate)', 'Generate'],
+    \['c', '<Action>(GotoClass)', 'Open workspace class picker'],
+    \['h', '<Action>(HierarchyGroup)', 'Show code hierarchy'],
+    \['r', '<Action>(Refactorings.QuickListPopupAction)', 'Perform contextual refactor action'],
+    \['m', '<Action>(RefactoringMenu)', 'Open refactor menu'],
+    \])
+
+"" Comma mode.
+
+call s:MapGroupWithDescriptions(',', 'Comma', [
+    \['h', '<Action>(HarpoonerQuickMenu)', 'Open Harpoon menu'],
+    \['s', '<Action>(Switch)', 'Switch over common options'],
+    \['c', '<Action>(ActivateGitHubCopilotChatToolWindow)', 'Open/focus Copilot chat'],
+    \['i', '<Action>(OpenInlineChatAction)', 'Open inline Copilot chat'],
+    \['t', '<Action>(ActivateTerminalToolWindow)', 'Open terminal'],
+    \['T', '<Action>(Terminal.OpenInTerminal)', 'Open terminal at current file directory'],
+    \['n', '<Action>(NewElement)', 'Create new file'],
+    \['y', '<Action>(CopyReferencePopup)', 'Yank filename'],
+    \['Y', '<Action>(CopyReference)', 'Yank reference'],
+    \['H', '<Action>(HighlightUsagesInFile)', 'Highlight symbol references'],
+    \])
+
+"" Explore mode.
+
+call s:MapGroupWithDescriptions(',e', 'Explore', [
+    \['f', '<Action>(SelectInProjectView)', 'Select current file in project view'],
+    \['e', '<Action>(ActivateProjectToolWindow)', 'Explore the project view'],
+    \['o', '<Action>(RevealIn)', 'Open current file in Finder'],
+    \])
+
+"" Git mode.
+
+call s:MapGroupWithDescriptions(',g', 'Git', [
+    \['a', '<Action>(Git.Menu)', 'Actions menu'],
+    \['g', '<Action>(CheckinProject)', 'Commit changes'],
+    \['G', '<Action>(Github.Create.Pull.Request)', 'Create a PR on Github'],
+    \['r', '<Action>(Vcs.RollbackChangedLines)', 'Reset hunk'],
+    \['p', '<Action>(Vcs.UpdateProject)', 'Pull'],
+    \['P', '<Action>(Vcs.Push)', 'Push'],
+    \['c', '<Action>(Git.Branches)', 'Checkout branches'],
+    \['s', '<Action>(Vcs.Show.Shelf)', 'Shelf'],
+    \['l', '<Action>(Vcs.Show.Log)', 'Log'],
+    \['o', '<Action>(Github.Open.In.Browser)', 'Open change on Github'],
+    \['h', '<Action>(Vcs.ShowTabbedFileHistory)', 'File history'],
+    \['b', '<Action>(Annotate)', 'Blame'],
+    \])
+
+"" Project mode.
+
+call s:MapGroupWithDescriptions(',p', 'Project', [
+    \['p', '<Action>(ManageRecentProjects)', 'Switch projects'],
+    \['t', '<Action>(ActivateTODOToolWindow)', 'Show TODOs'],
+    \['m', '<Action>(Maven.ExecuteGoal)', 'Execute Maven goal'],
+    \['g', '<Action>(Gradle.ExecuteTask)', 'Execute Gradle task'],
+    \])
+
+"" Run mode.
+
+call s:MapGroupWithDescriptions(',r', 'Run', [
+    \['r', '<Action>(Run)', 'Launch current run target'],
+    \['l', '<Action>(RunAnything)', 'Launch run target'],
+    \['p', '<Action>(Rerun)', 'Launch previous run target'],
+    \['h', '<Action>(ChooseRunConfiguration)', 'Launch run target from history'],
+    \['t', '<Action>(RerunTests)', 'Launch test run target'],
+    \['f', '<Action>(RerunFailedTests)', 'Launch failed tests run target'],
+    \['t', '<Action>(Stop)', 'End run session'],
+    \])
