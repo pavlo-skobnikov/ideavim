@@ -1,0 +1,3 @@
+[submodule "ideavim-helix"]
+	path = ideavim-helix
+	url = git@github.com:pavlo-skobnikov/ideavim-helix.git

@@ -1,0 +1,203 @@
+""" Import the beggar's Helix configuration for IdeaVim.
+source ~/dotfiles/ideavim/ideavim-helix/helix.vim
+
+
+
+""" Options section.
+
+" Enable relative lien numbers.
+set relativenumber
+
+
+
+""" Plugins section.
+
+
+"" Navigate file tree w/ vim keys.
+" REFERENCE: https://github.com/JetBrains/ideavim/wiki/NERDTree-support
+set NERDTree
+
+
+"" Cycle through context-aware options.
+" REFERENCE: https://plugins.jetbrains.com/plugin/25899-vim-switch
+
+" Enable patterns.
+let g:switch_definitions = 'group:basic,group:java,group:javascript,group:scala'
+
+" Enable the plugin.
+set switch
+
+
+
+""" Mappings section.
+
+
+"" Utility mapping functions.
+
+" The value of this counter is used to generate dynamically new variable symbols
+" to be used to create or remove descriptions for `which-key`.
+let s:VarNameCounter = 0
+
+" Creates a description for the `which-key` plugin to pick up.
+function! s:CreateDescription(key_sequence, description)
+    let s:VarNameCounter += 1
+    let variable_name = "WhichKeyDesc_GeneratedName_" . s:VarNameCounter
+    let mapping_with_description = a:key_sequence . " " . a:description
+
+    exec "let g:" . variable_name . " = '" . mapping_with_description . "'"
+endfunction
+
+" Create a mapping mapped with `map` and a `which-key` plugin description. 
+function! s:MapWithDescription(key_sequence, action, description)
+    exec "map " . a:key_sequence . " " . a:action
+
+    call s:CreateDescription(a:key_sequence, a:description)
+endfunction
+
+" Creates a `which-key` description for the group, builds mappings from the
+" group key leader and the mapping suffixes and creates mappings with
+" descriptions for the group mappings.
+function! s:MapGroupWithDescriptions(group_key_leader, group_name, mapping_arrays)
+    let s:VarNameCounter += 1
+    let variable_name = "WhichKeyDesc_GeneratedName_" . s:VarNameCounter
+    let mapping_with_description = a:group_key_leader . " " . a:group_name
+
+    exec "let g:" . variable_name . " = '" . mapping_with_description . "'"
+
+    for mapping in a:mapping_arrays
+        call s:MapWithDescription(
+            \a:group_key_leader . mapping[0],
+            \mapping[1],
+            \mapping[2]
+        \)
+    endfor
+endfunction
+
+" Removes `which-key` descriptions for the key sequences provided via the
+" `key_sequences` array.
+function! s:RemoveDescriptionsForKeys(key_sequences)
+    for key_sequence in a:key_sequences
+        let s:VarNameCounter += 1
+        let variable_name = "WhichKeyDesc_GeneratedName_" . s:RemoveDescriptionsCounter
+
+        exec "let g:" . variable_name . " = '" . key_sequence . "'"
+    endfor
+endfunction
+
+
+"" Miscellaneous mappings.
+
+" Center screen on page movement.
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" Toggle tool windows.
+map <C-w>t <Action>(HideAllWindows)
+
+" Toggle folds.
+call s:MapWithDescription('za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
+
+" Invoke and operate on regular and Copilot completions.
+map <C-x><C-x> <Action>(CodeCompletion)
+map <C-x><C-t> <Action>(SmartTypeCompletion)
+map <C-x><C-s> <Action>(EditorCompleteStatement)
+
+map <C-x><C-c> <Action>(copilot.requestCompletions)
+map <C-x><C-p> <Action>(copilot.cyclePrevInlays)
+map <C-x><C-n> <Action>(copilot.cycleNextInlays)
+
+" Show diagnostic.
+map <C-j> <Action>(ShowErrorDescription)
+
+" Show function parameters.
+map <C-k> <Action>(ParameterInfo)
+
+
+"" Harpoon mappings.
+
+" Add file to the Harpoon mark list.
+map <C-h> <Action>(HarpoonerAddFile)
+
+" Open the Harpoon marks list.
+map <C-l> <Action>(HarpoonerQuickMenu)
+
+" Goto Harpoon marks directly.
+map <C-1> <Action>(HarpoonerOpenFile0)
+map <C-2> <Action>(HarpoonerOpenFile1)
+map <C-3> <Action>(HarpoonerOpenFile2)
+map <C-4> <Action>(HarpoonerOpenFile3)
+map <C-5> <Action>(HarpoonerOpenFile4)
+map <C-6> <Action>(HarpoonerOpenFile5)
+map <C-7> <Action>(HarpoonerOpenFile6)
+map <C-8> <Action>(HarpoonerOpenFile7)
+map <C-9> <Action>(HarpoonerOpenFile8)
+map <C-0> <Action>(HarpoonerOpenFile9)
+
+
+"" Extra Goto mode mappings.
+
+call s:MapWithDescription('gI', '<Action>(GotoSuperMethod)', 'Goto super')
+call s:MapWithDescription('gC', '<Action>(GotoClass)', 'Goto class')
+call s:MapWithDescription('gT', '<Action>(GotoTest)', 'Goto test/implementation')
+call s:MapWithDescription('gR', '<Action>(FindUsages)', 'Goto qflist and add references')
+call s:MapWithDescription('gH', '<Action>(HierarchyGroup)', 'Goto code hierarchy')
+
+
+"" Extra Space mode mappings.
+
+call s:MapGroupWithDescriptions('<leader>e', 'Extra refactor actions', [
+    \['r', '<Action>(Refactorings.QuickListPopupAction)', 'Perform contextual refactor action'],
+    \['m', '<Action>(RefactoringMenu)', 'Open refactor menu'],
+    \['g', '<Action>(Generate)', 'Generate'],
+    \['o', '<Action>(OptimizeImports)', 'Optimize imports'],
+    \['t', '<Action>(ExpressionTypeInfo)', 'Show expression type info'],
+    \['h', '<Action>(HighlightUsagesInFile)', 'Highlight symbol references'],
+    \['y', '<Action>(CopyReference)', 'Yank reference'],
+    \])
+
+noremap <leader>n :Switch<CR>
+call s:CreateDescription('<leader>n', 'Switch to next text option')
+
+
+"" Comma mode.
+
+call s:MapGroupWithDescriptions(',', 'Comma', [
+    \['n', '<Action>(NewElement)', 'Create new file'],
+    \['m', '<Action>(ShowBookmarks)', 'Open bookmarks picker'],
+    \['c', '<Action>(ActivateGitHubCopilotChatToolWindow)', 'Open/focus Copilot chat'],
+    \['i', '<Action>(OpenInlineChatAction)', 'Open inline Copilot chat'],
+    \['t', '<Action>(ActivateTerminalToolWindow)', 'Open terminal'],
+    \['T', '<Action>(Terminal.OpenInTerminal)', 'Open terminal at current file directory'],
+    \])
+
+call s:MapGroupWithDescriptions(',g', 'Git', [
+    \['a', '<Action>(Git.Menu)', 'Actions menu'],
+    \['g', '<Action>(CheckinProject)', 'Commit changes'],
+    \['G', '<Action>(Github.Create.Pull.Request)', 'Create a PR on Github'],
+    \['r', '<Action>(Vcs.RollbackChangedLines)', 'Reset hunk'],
+    \['p', '<Action>(Vcs.UpdateProject)', 'Pull'],
+    \['P', '<Action>(Vcs.Push)', 'Push'],
+    \['c', '<Action>(Git.Branches)', 'Checkout branches'],
+    \['s', '<Action>(Vcs.Show.Shelf)', 'Shelf'],
+    \['l', '<Action>(Vcs.Show.Log)', 'Log'],
+    \['o', '<Action>(Github.Open.In.Browser)', 'Open change on Github'],
+    \['h', '<Action>(Vcs.ShowTabbedFileHistory)', 'File history'],
+    \['b', '<Action>(Annotate)', 'Blame'],
+    \])
+
+call s:MapGroupWithDescriptions(',p', 'Project', [
+    \['p', '<Action>(ManageRecentProjects)', 'Switch projects'],
+    \['t', '<Action>(ActivateTODOToolWindow)', 'Show TODOs'],
+    \['m', '<Action>(Maven.ExecuteGoal)', 'Execute Maven goal'],
+    \['g', '<Action>(Gradle.ExecuteTask)', 'Execute Gradle task'],
+    \])
+
+call s:MapGroupWithDescriptions(',r', 'Run', [
+    \['r', '<Action>(Run)', 'Launch current run target'],
+    \['l', '<Action>(RunAnything)', 'Launch run target'],
+    \['p', '<Action>(Rerun)', 'Launch previous run target'],
+    \['h', '<Action>(ChooseRunConfiguration)', 'Launch run target from history'],
+    \['t', '<Action>(RerunTests)', 'Launch test run target'],
+    \['f', '<Action>(RerunFailedTests)', 'Launch failed tests run target'],
+    \['t', '<Action>(Stop)', 'End run session'],
+    \])
