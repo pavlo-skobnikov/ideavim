@@ -127,12 +127,12 @@ map <F4> <Action>(StepOut)
 
 " GOTO mappings.
 let goto_action_mappings = [
-    \[['map'], 'd', 'GotoDeclaration', 'GotoDefinition'],
-    \[['map'], 'y', 'GotoTypeDeclaration', 'GotoTypeDeclaration'],
-    \[['map'], 'r', 'ShowUsages', 'GotoReferences'],
-    \[['map'], 'R', 'FindUsages', 'SearchAllReferences'],
-    \[['map'], 'i', 'GotoImplementation', 'GotoImplementation'],
-    \[['map'], 'I', 'GotoSuperMethod', 'GotoParent'],
+    \[['map'], 'd', 'GotoDeclaration', 'Goto definition'],
+    \[['map'], 'y', 'GotoTypeDeclaration', 'Goto type declaration'],
+    \[['map'], 'r', 'ShowUsages', 'Goto references'],
+    \[['map'], 'R', 'FindUsages', 'Search all references'],
+    \[['map'], 'i', 'GotoImplementation', 'Goto implementation'],
+    \[['map'], 'I', 'GotoSuperMethod', 'Goto parent'],
     \]
 
 call MapModeActionsWithDescriptions('g', goto_action_mappings)
@@ -141,17 +141,17 @@ call MapModeActionsWithDescriptions('g', goto_action_mappings)
 " [ and ] pair mappings.
 
 let left_bracket_action_mappings = [
-    \[[map], 'q', 'PreviousOccurence',  'PreviousSearchedItem'],
-    \[[map], 'g', 'VcsShowPrevChangeMarker',  'PreviousChange'],
-    \[[map], 'd', 'GotoPreviousError',  'PreviousDiagnostic'],
-    \[[map], 'f', 'MethodUp',  'PreviousFunction'],
+    \[[map], 'q', 'PreviousOccurence', 'Previous searched item'],
+    \[[map], 'g', 'VcsShowPrevChangeMarker', 'Previous change'],
+    \[[map], 'd', 'GotoPreviousError', 'Previous diagnostic'],
+    \[[map], 'f', 'MethodUp', 'Previous function'],
     \]
 
 let right_bracket_action_mappings = [
-    \[[map], 'q', 'NextOccurence',  'NextSearchedItem'],
-    \[[map], 'g', 'VcsShowNextChangeMarker',  'NextChange'],
-    \[[map], 'd', 'GotoNextError',  'NextDiagnostic'],
-    \[[map], 'f', 'MethodDown',  'NextFunction'],
+    \[[map], 'q', 'NextOccurence', 'Next searched item'],
+    \[[map], 'g', 'VcsShowNextChangeMarker', 'Next change'],
+    \[[map], 'd', 'GotoNextError', 'Next diagnostic'],
+    \[[map], 'f', 'MethodDown', 'Next function'],
     \]
 
 call MapModeActionsWithDescriptions('[', left_bracket_action_mappings)
@@ -160,25 +160,25 @@ call MapModeActionsWithDescriptions(']', right_bracket_action_mappings)
 " Leader key mode.
 
 let leader_action_mappings = [
-    \[['map'], 'f', 'GotoFile', 'OpenFilePicker'],
-    \[['map'], 'b', 'Switcher', 'OpenBufferPicker'],
-    \[['map'], 'c', 'GotoClass', 'GoToClass'],
-    \[['map'], 's', 'FileStructurePopup', 'OpenSymbolPicker'],
-    \[['map'], 'S', 'GotoSymbol', 'OpenWorkspaceSymbolPicker'],
-    \[['map'], 'd', 'ActivateProblemsViewToolWindow', 'OpenDiagnostics'],
-    \[['map'], 'g', 'RecentChangedFiles', 'OpenRecentlyChangedFilesPicker'],
-    \[['map'], 'a', 'ShowIntentionActions', 'PerformCodeAction'],
-    \[['map'], 'A', 'Refactorings.QuickListPopupAction', 'PerformRefactorAction'],
-    \[['map'], '/', 'FindInPath', 'GrepInWorkspace'],
-    \[['map'], 'q', 'ActivateFindToolWindow', 'OpenFindWindow'],
-    \[['map'], 'k', 'QuickJavaDoc', 'ShowDocs'],
-    \[['map'], 'K', 'ExpressionTypeInfo', 'ShowTypeInfo'],
-    \[['map'], 'r', 'RenameElement', 'RenameSymbol'],
-    \[['map'], 'h', 'HighlightUsagesInFile', 'HighlightSymbolReferences'],
+    \[['map'], 'f', 'GotoFile', 'Open file picker'],
+    \[['map'], 'b', 'Switcher', 'Open buffer picker'],
+    \[['map'], 'c', 'GotoClass', 'Go to class'],
+    \[['map'], 's', 'FileStructurePopup', 'Open symbol picker'],
+    \[['map'], 'S', 'GotoSymbol', 'Open workspace symbol picker'],
+    \[['map'], 'd', 'ActivateProblemsViewToolWindow', 'Open diagnostics'],
+    \[['map'], 'g', 'RecentChangedFiles', 'Open recently changed files picker'],
+    \[['map'], 'a', 'ShowIntentionActions', 'Perform code action'],
+    \[['map'], 'A', 'Refactorings.QuickListPopupAction', 'Perform refactor action'],
+    \[['map'], '/', 'FindInPath', 'Grep in workspace'],
+    \[['map'], 'q', 'ActivateFindToolWindow', 'Open find window'],
+    \[['map'], 'k', 'QuickJavaDoc', 'Show docs'],
+    \[['map'], 'K', 'ExpressionTypeInfo', 'Show type info'],
+    \[['map'], 'r', 'RenameElement', 'Rename symbol'],
+    \[['map'], 'h', 'HighlightUsagesInFile', 'Highlight symbol references'],
     \[['map'], 'c', 'CommentByLineComment', 'Comment'],
-    \[['map'], 'C', 'CommentByBlockComment', 'BlockComment'],
-    \[['map'], '?', 'GotoAction', 'OpenCommandPalette'],
-    \[['map'], '<leader>', 'SearchEverywhere', 'SearchEverywherePicker'],
+    \[['map'], 'C', 'CommentByBlockComment', 'Block comment'],
+    \[['map'], '?', 'GotoAction', 'Open command palette'],
+    \[['map'], '<leader>', 'SearchEverywhere', 'Search everywhere picker'],
     \]
 
 call MapModeActionsWithDescriptions('<leader>', leader_action_mappings)
@@ -188,20 +188,20 @@ call MapModeActionsWithDescriptions('<leader>', leader_action_mappings)
 let g:WhichKeyDesc_LeaderWindow = '<leader>w +window'
 
 let leader_window_mappings = [
-    \[['nnoremap', 'vnoremap'], 'w', '<C-w>w', 'GoToNextWindow'],
-    \[['nnoremap', 'vnoremap'], 't', '<esc>:action HideAllWindows<cr>', 'ToggleToolWindows'],
-    \[['nnoremap', 'vnoremap'], 's', '<C-w>s', 'HorizontalBottomSplit'],
-    \[['nnoremap', 'vnoremap'], 'v', '<C-w>v', 'VerticalRightSplit'],
-    \[['nnoremap', 'vnoremap'], 'd', '<C-w>sgd', 'GoToDefinitionInHSplit'],
-    \[['nnoremap', 'vnoremap'], 'D', '<C-w>vgd', 'GoToDefinitionInVSplit'],
-    \[['nnoremap', 'vnoremap'], 'q', '<C-w>c', 'CloseWindow'],
-    \[['nnoremap', 'vnoremap'], 'o', '<C-w>o', 'CloseWindowsExceptCurrent'],
-    \[['nnoremap', 'vnoremap'], 'h', '<C-w>h', 'JumpToLeftSplit'],
-    \[['nnoremap', 'vnoremap'], 'j', '<C-w>j', 'JumpToSplitBelow'],
-    \[['nnoremap', 'vnoremap'], 'k', '<C-w>k', 'JumpToSplitAbove'],
-    \[['nnoremap', 'vnoremap'], 'l', '<C-w>l', 'JumpToRightSplit'],
-    \[['nnoremap', 'vnoremap'], 'n', '<esc>:action NewScratchBuffer<cr>', 'NewScratchBuffer'],
-    \[['nnoremap', 'vnoremap'], 'N', '<esc>:action NewScratchFile<cr>', 'NewScratchFile'],
+    \[['nnoremap', 'vnoremap'], 'w', '<C-w>w', 'Go to next window'],
+    \[['nnoremap', 'vnoremap'], 't', '<esc>:action HideAllWindows<cr>', 'Toggle tool windows'],
+    \[['nnoremap', 'vnoremap'], 's', '<C-w>s', 'Horizontal bottom split'],
+    \[['nnoremap', 'vnoremap'], 'v', '<C-w>v', 'Vertical right split'],
+    \[['nnoremap', 'vnoremap'], 'd', '<C-w>sgd', 'Go to definition in hsplit'],
+    \[['nnoremap', 'vnoremap'], 'D', '<C-w>vgd', 'Go to definition in vsplit'],
+    \[['nnoremap', 'vnoremap'], 'q', '<C-w>c', 'Close window'],
+    \[['nnoremap', 'vnoremap'], 'o', '<C-w>o', 'Close windows except current'],
+    \[['nnoremap', 'vnoremap'], 'h', '<C-w>h', 'Jump to left split'],
+    \[['nnoremap', 'vnoremap'], 'j', '<C-w>j', 'Jump to split below'],
+    \[['nnoremap', 'vnoremap'], 'k', '<C-w>k', 'Jump to split above'],
+    \[['nnoremap', 'vnoremap'], 'l', '<C-w>l', 'Jump to right split'],
+    \[['nnoremap', 'vnoremap'], 'n', '<esc>:action NewScratchBuffer<cr>', 'New scratch buffer'],
+    \[['nnoremap', 'vnoremap'], 'N', '<esc>:action NewScratchFile<cr>', 'New scratch file'],
     \]
 
 call MapModeWithDescriptions('<leader>w', leader_window_mappings)
@@ -211,11 +211,11 @@ call MapModeWithDescriptions('<leader>w', leader_window_mappings)
 let g:WhichKeyDesc_LspLeader = '<leader>l'
 
 let leader_lsp_action_mappings = [
-    \[['map'], 'f', 'ShowErrorDescription', 'ShowDiagnosticsFloat'],
-    \[['map'], 'o', 'OptimizeImports', 'OptimizeImports'],
+    \[['map'], 'f', 'ShowErrorDescription', 'Show diagnostics float'],
+    \[['map'], 'o', 'OptimizeImports', 'Optimize imports'],
     \[['map'], 'g', 'Generate', 'Generate'],
-    \[['map'], 'h', 'HierarchyGroup', 'ShowHierarchy'],
-    \[['map'], 'e', 'InspectCode', 'DiscoverErrors'],
+    \[['map'], 'h', 'HierarchyGroup', 'Show hierarchy'],
+    \[['map'], 'e', 'InspectCode', 'Discover errors'],
     \]
 
 call MapModeActionsWithDescriptions('<leader>l', leader_lsp_action_mappings)
@@ -223,7 +223,7 @@ call MapModeActionsWithDescriptions('<leader>l', leader_lsp_action_mappings)
 " Second-leader key mode.
 
 let second_leader_action_mappings = [
-    \[['map'], '~', 'JumpToLastWindow', 'ShowLastWindow'],
+    \[['map'], '~', 'JumpToLastWindow', 'Show last window'],
     \]
 
 call MapModeActionsWithDescriptions('\', second_leader_action_mappings)
@@ -233,10 +233,10 @@ call MapModeActionsWithDescriptions('\', second_leader_action_mappings)
 let g:WhichKeyDesc_ApplicationLeader = '\a +application'
 
 let second_leader_application_action_mappings = [
-    \[['map'], 'e', 'ActivateEventLogToolWindow', 'ShowEventLog'],
-    \[['map'], 'r', 'IdeaVim.ReloadVimRc.reload', 'ReloadVimrc'],
-    \[['map'], 't', 'ChangeLaf', 'ChangeTheme'],
-    \[['map'], 'a', 'VimFindActionIdAction', 'ToggleActionIdTracking'],
+    \[['map'], 'e', 'ActivateEventLogToolWindow', 'Show event log'],
+    \[['map'], 'r', 'IdeaVim.ReloadVimRc.reload', 'Reload vimrc'],
+    \[['map'], 't', 'ChangeLaf', 'Change theme'],
+    \[['map'], 'a', 'VimFindActionIdAction', 'Toggle action id tracking'],
     \]
 
 call MapModeActionsWithDescriptions('\a', second_leader_application_action_mappings)
