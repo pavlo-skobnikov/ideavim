@@ -208,7 +208,7 @@ call MapModeWithDescriptions('<leader>w', leader_window_mappings)
 
 " Leader LSP submode.
 
-let g:WhichKeyDesc_LspLeader = '<leader>l'
+let g:WhichKeyDesc_LspLeader = '<leader>l +lsp'
 
 let leader_lsp_action_mappings = [
     \[['map'], 'f', 'ShowErrorDescription', 'Show diagnostics float'],
@@ -258,7 +258,7 @@ call MapModeActionsWithDescriptions('\d', second_leader_debug_action_mappings)
 
 " Second-leader files submode.
 
-let g:WhichKeyDesc_FilesLeader = '<leader>f +files'
+let g:WhichKeyDesc_FilesLeader = '\f +files'
 
 let second_leader_files_action_mappings = [
     \[['map'], 'r', 'RecentFiles', 'Recent files'],
@@ -266,7 +266,7 @@ let second_leader_files_action_mappings = [
     \[['map'], 'y', 'CopyAbsolutePath', 'Copy filename'],
     \]
 
-call MapModeActionsWithDescriptions('<leader>f', second_leader_files_action_mappings)
+call MapModeActionsWithDescriptions('\f', second_leader_files_action_mappings)
 
 " Second-leader git submode.
 
