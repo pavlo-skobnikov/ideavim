@@ -240,3 +240,131 @@ let second_leader_application_action_mappings = [
     \]
 
 call MapModeActionsWithDescriptions('\a', second_leader_application_action_mappings)
+
+" Second-leader debug submode.
+
+let g:WhichKeyDesc_DebugLeader = '\d +debug'
+
+let second_leader_debug_action_mappings = [
+    \[['map'], 'b', 'ToggleLineBreakpoint', 'Toggle breakpoint'],
+    \[['map'], 'f', 'ViewBreakpoints', 'Search breakpoints'],
+    \[['map'], 'c', 'RunToCursor', 'Run to cursor'],
+    \[['map'], 'r', 'Debug', 'Run debug'],
+    \[['map'], 'l', 'ChooseDebugConfiguration', 'Search debug configurations'],
+    \[['map'], 't', 'ActivateDebugToolWindow', 'Toggle debug tool window'],
+    \]
+
+call MapModeActionsWithDescriptions('\d', second_leader_debug_action_mappings)
+
+" Second-leader files submode.
+
+let g:WhichKeyDesc_FilesLeader = '<leader>f +files'
+
+let second_leader_files_action_mappings = [
+    \[['map'], 'r', 'RecentFiles', 'Recent files'],
+    \[['map'], 'a', 'RefactoringMenu', 'File actions'],
+    \[['map'], 'y', 'CopyAbsolutePath', 'Copy filename'],
+    \]
+
+call MapModeActionsWithDescriptions('<leader>f', second_leader_files_action_mappings)
+
+" Second-leader git submode.
+
+let g:WhichKeyDesc_GitLeader = '\g +git'
+
+let second_leader_git_action_mappings = [
+    \[['map'], 'g', 'Git.Commit.Stage', 'Git ui'],
+    \[['map'], 'l', 'Vcs.Show.Log', 'Log'],
+    \[['map'], 'B', 'Annotate', 'Blame'],
+    \[['map'], 'f', 'Git.Fetch', 'Fetch'],
+    \[['map'], 'p', 'Vcs.UpdateProject', 'Pull'],
+    \[['map'], 'P', 'Vcs.Push', 'Push'],
+    \[['map'], 'h', 'Vcs.ShowTabbedFileHistory', 'File commit history'],
+    \[['map'], 'b', 'Git.Branches', 'Branches'],
+    \[['map'], 's', 'Vcs.Show.Shelf', 'Show shelf'],
+    \[['map'], 'a', 'Git.FileActions', 'Git file actions'],
+    \[['map'], 'M', 'GitHub.MainMenu', 'Github menu'],
+    \[['map'], 'm', 'Git.Menu', 'Git menu'],
+    \[['map'], 'o', 'Github.Open.In.Browser', 'Open region in browser'],
+    \]
+
+call MapModeActionsWithDescriptions('\g', second_leader_git_action_mappings)
+
+" Second-leader hunks submode.
+
+let g:WhichKeyDesc_HunksLeader = '\h +hunks'
+
+let second_leader_hunks_action_mappings = [
+    \[['map'], 'b', 'Git.Add', 'Stage buffer'],
+    \[['map'], 'h', 'Vcs.RollbackChangedLines', 'Stage hunk'],
+    \]
+
+call MapModeActionsWithDescriptions('\h', second_leader_hunks_action_mappings)
+
+" Second-leader bookmarks submode.
+
+let g:WhichKeyDesc_BookmarksLeader = '\b +bookmarks'
+
+let second_leader_bookmarks_action_mappings = [
+    \[['map'], 'b', 'Bookmarks', 'Bookmark menu'],
+    \[['map'], 'f', 'ShowBookmarks', 'Search bookmarks'],
+    \]
+
+call MapModeActionsWithDescriptions('\b', second_leader_bookmarks_action_mappings)
+
+" Second-leader open submode.
+
+let g:WhichKeyDesc_OpenLeader = '\o +open'
+
+let second_leader_open_action_mappings = [
+    \[['nmap'], 'w', 'EditSourceInNewWindow', 'New buffer window'],
+    \[['nmap'], 'f', 'OpenProjectWindows', 'Search windows'],
+    \[['noremap'], 'p', 'ActivateProjectToolWindow', 'Toggle project view'],
+    \[['nmap'], 'o', 'RevealIn', 'Reveal in finder'],
+    \[['nmap'], 't', 'ActivateTerminalToolWindow', 'Open terminal'],
+    \[['nmap'], 'T', 'Terminal.OpenInTerminal', 'Open terminal at current file directory'],
+    \]
+
+call MapModeActionsWithDescriptions('\o', second_leader_open_action_mappings)
+
+" Second-leader project submode.
+
+let g:WhichKeyDesc_ProjectLeader = '\p +project'
+
+let second_leader_project_action_mappings = [
+    \[['map'], 'i', 'InvalidateCaches', 'Invalidate project cache'],
+    \[['map'], 'p', 'ManageRecentProjects', 'Switch projects'],
+    \[['map'], 't', 'ActivateTODOToolWindow', 'Show TODOs'],
+    \]
+
+call MapModeActionsWithDescriptions('\p', second_leader_project_action_mappings)
+
+" Second-leader run submode.
+
+let g:WhichKeyDesc_RunLeader = '\r +run'
+
+let second_leader_run_action_mappings = [
+    \[['map'], 't', 'ActivateRunToolWindow', 'Open run tool window'],
+    \[['map'], 'a', 'RunAnything', 'Run anything'],
+    \[['map'], 'r', 'Run', 'Run project'],
+    \[['map'], 'l', 'Rerun', 'Rerun latest configuration'],
+    \[['map'], 'L', 'RerunTests', 'Rerun tests'],
+    \[['map'], 'h', 'ChooseRunConfiguration', 'Choose run configuration from history'],
+    \]
+
+call MapModeActionsWithDescriptions('\r', second_leader_run_action_mappings)
+
+" Second-leader toggle submode.
+
+let g:WhichKeyDesc_ToggleLeader = '\t +toggle'
+
+let second_leader_toggle_action_mappings = [
+    \[['map'], 'p', 'TogglePresentationMode', 'Presentation mode'],
+    \[['map'], 'l', 'EditorToggleShowLineNumbers', 'Line numbers'],
+    \[['map'], 'r', 'ToggleReadOnlyAttribute', 'Read only mode'],
+    \[['map'], 'w', 'EditorToggleUseSoftWraps', 'Soft wrapping'],
+    \[['map'], 'd', 'ToggleDistractionFreeMode', 'Distraction free mode'],
+    \[['map'], 'z', 'ToggleZenMode', 'Zen mode'],
+    \]
+
+call MapModeActionsWithDescriptions('\t', second_leader_toggle_action_mappings)
