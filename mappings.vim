@@ -24,7 +24,7 @@ let g:WhichKeyDesc_VariableNameCounter = 0
 " variable name starts w/ "WhichKeyDesc_", which is then picked up by the
 " `which-key` plugin to create a dynamic keymap-popup window.
 function! CreateWhichKeyDescription(lhs, desc)
-    " Increment the `wicounter by 1.
+    " Increment the counter by 1.
     let g:WhichKeyDesc_VariableNameCounter += 1
     " Use the counter number to create a unique variable name for `which-key`.
     let variable_name = "WhichKeyDesc_GeneratedName_" . g:WhichKeyDesc_VariableNameCounter
