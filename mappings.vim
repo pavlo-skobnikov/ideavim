@@ -141,17 +141,17 @@ call MapModeActionsWithDescriptions('g', goto_action_mappings)
 " [ and ] pair mappings.
 
 let left_bracket_action_mappings = [
-    \[[map], 'q', 'PreviousOccurence', 'Previous searched item'],
-    \[[map], 'g', 'VcsShowPrevChangeMarker', 'Previous change'],
-    \[[map], 'd', 'GotoPreviousError', 'Previous diagnostic'],
-    \[[map], 'f', 'MethodUp', 'Previous function'],
+    \[['map'], 'q', 'PreviousOccurence', 'Previous searched item'],
+    \[['map'], 'g', 'VcsShowPrevChangeMarker', 'Previous change'],
+    \[['map'], 'd', 'GotoPreviousError', 'Previous diagnostic'],
+    \[['map'], 'f', 'MethodUp', 'Previous function'],
     \]
 
 let right_bracket_action_mappings = [
-    \[[map], 'q', 'NextOccurence', 'Next searched item'],
-    \[[map], 'g', 'VcsShowNextChangeMarker', 'Next change'],
-    \[[map], 'd', 'GotoNextError', 'Next diagnostic'],
-    \[[map], 'f', 'MethodDown', 'Next function'],
+    \[['map'], 'q', 'NextOccurence', 'Next searched item'],
+    \[['map'], 'g', 'VcsShowNextChangeMarker', 'Next change'],
+    \[['map'], 'd', 'GotoNextError', 'Next diagnostic'],
+    \[['map'], 'f', 'MethodDown', 'Next function'],
     \]
 
 call MapModeActionsWithDescriptions('[', left_bracket_action_mappings)
