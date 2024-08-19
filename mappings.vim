@@ -90,11 +90,11 @@ call Map(['nmap', 'vmap', 'imap'], '<C-S-k>', '<Action>(ParameterInfo)')
 " Add a new line above/below the current line.
 nnoremap [<Space> mzO<Esc>`z
 vnoremap [<Space> <Esc>O<Esc>gv
-call CreateWhichKeyDescription('[<space>', 'AddLineAbove')
+call CreateWhichKeyDescription('[<Space>', 'Add line above')
 
 nnoremap ]<Space> mzo<Esc>`z
 vnoremap [<Space> <Esc>O<Esc>gv
-call CreateWhichKeyDescription(']<space>', 'AddLineBelow')
+call CreateWhichKeyDescription(']<Space>', 'Add line below')
 
 " Open project tree w/ focus on the currently opened file.
 nmap - <Action>(SelectInProjectView)
@@ -107,7 +107,7 @@ vmap ; <Action>(EditorSelectWord)
 vmap , <Action>(EditorUnSelectWord)
 
 " Toggle fold.
-call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'ToggleFold')
+call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
 
 " Harpoon.
 nmap <C-q> <Action>(AddToHarpoon)
@@ -133,6 +133,7 @@ let goto_action_mappings = [
     \[['map'], 'R', 'FindUsages', 'Search all references'],
     \[['map'], 'i', 'GotoImplementation', 'Goto implementation'],
     \[['map'], 'I', 'GotoSuperMethod', 'Goto parent'],
+    \[['map'], 'w', 'AceWordAction', 'Jump to a two character label'],
     \]
 
 call MapModeActionsWithDescriptions('g', goto_action_mappings)
@@ -348,7 +349,8 @@ let second_leader_run_action_mappings = [
     \[['map'], 'a', 'RunAnything', 'Run anything'],
     \[['map'], 'r', 'Run', 'Run project'],
     \[['map'], 'l', 'Rerun', 'Rerun latest configuration'],
-    \[['map'], 'L', 'RerunTests', 'Rerun tests'],
+    \[['map'], 's', 'RerunTests', 'Rerun test suite'],
+    \[['map'], 'S', 'RerunFailedTests', "Rerun suite's failed tests"],
     \[['map'], 'h', 'ChooseRunConfiguration', 'Choose run configuration from history'],
     \]
 
