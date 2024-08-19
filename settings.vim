@@ -49,12 +49,6 @@ set idearefactormode=keep
 
 "" Plugins and plugin-specific configurations.
 
-" [count]/{Visual} + REGISTER + gr = Replace from register.
-Plug 'vim-scripts/ReplaceWithRegister'
-
-let g:WhichKeyDesc_ReplaceWithRegisterLeader = 'gr +replace'
-let g:WhichKeyDesc_ReplaceWithRegisterLeader_ReplaceLineOrSelection = 'grr Replace line/selection'
-
 " Add the entire buffer text object: a-/ie (around/inside the (entire) buffer contents).
 Plug 'kana/vim-textobj-entire'
 
