@@ -125,6 +125,55 @@ map <F2> <Action>(StepInto)
 map <F3> <Action>(StepOver)
 map <F4> <Action>(StepOut)
 
+" Paredit mappings.
+
+" Paredit traverse by s-expressions.
+map <A-n> <Action>(:cursive.actions.paredit/forward)
+map <A-p> <Action>(:cursive.actions.paredit/backward)
+
+map <A-i> <Action>(:cursive.actions.paredit/forward-down)
+map <A-S-i> <Action>(:cursive.actions.paredit/backward-down)
+
+map <A-o> <Action>(:cursive.actions.paredit/forward-up)
+map <A-S-o> <Action>(:cursive.actions.paredit/backward-up)
+
+" Paredit move form.
+map <A-S-n> <Action>(:cursive.actions.paredit/move-form-down)
+map <A-S-p> <Action>(:cursive.actions.paredit/move-form-up)
+
+" Paredit wrap & close s-expressions.
+map <A-S-[> <Action>(:cursive.actions.paredit/wrap-curly)
+map <A-S-9> <Action>(:cursive.actions.paredit/wrap-paren)
+map <A-S-Þ> <Action>(:cursive.actions.paredit/wrap-quotes)
+map <A-[> <Action>(:cursive.actions.paredit/wrap-square) 
+
+map <A-S-]> <Action>(:cursive.actions.paredit/close-curly-and-newline)
+map <A-S-0> <Action>(:cursive.actions.paredit/close-paren-and-newline)
+map <A-]> <Action>(:cursive.actions.paredit/close-square-and-newline)
+
+" Paredit slurp & barf.
+map <A-h> <Action>(:cursive.actions.paredit/barf-backwards)
+map <A-S-h> <Action>(:cursive.actions.paredit/slurp-backwards)
+
+map <A-l> <Action>(:cursive.actions.paredit/barf-forwards)
+map <A-S-l> <Action>(:cursive.actions.paredit/slurp-forwards)
+
+" Paredit kill, splice, split, join, & raise.
+map <A-k> <Action>(:cursive.actions.paredit/kill)
+map <A-C-k> <Action>(:cursive.actions.paredit/copy-as-kill)
+map <A-S-k> <Action>(:cursive.actions.paredit/kill-sexp)
+
+map <A-j> <Action>(:cursive.actions.paredit/splice)
+map <A-S-j> <Action>(:cursive.actions.paredit/split)
+map <A-m> <Action>(:cursive.actions.paredit/join)
+map <A-S-m> <Action>(:cursive.actions.paredit/raise)
+
+" Paredit miscellaneous.
+map <A-C-;> <Action>(:cursive.actions.paredit/cycle-collection-type)
+
+map <A-C-,> <Action>(:cursive.actions.paredit/thread-form)
+map <A-C-.> <Action>(:cursive.actions.paredit/unthread-form)
+
 " GOTO mappings.
 let goto_action_mappings = [
     \[['map'], 'd', 'GotoDeclaration', 'Goto definition'],
@@ -370,3 +419,36 @@ let second_leader_toggle_action_mappings = [
     \]
 
 call MapModeActionsWithDescriptions('\t', second_leader_toggle_action_mappings)
+
+" Major-mode mappings.
+
+" Clojure submode.
+
+let g:WhichKeyDesc_LeaderClojure = '<⌥-a> +clojure'
+
+let major_leader_clojure_action_mappings = [
+    \[['map'], 'e', ':cursive.repl.actions/run-top-sexp', 'Evalute'],
+    \[['map'], 'v', ':cursive.repl.actions/run-last-sexp', 'Evaluate visual selection'],
+    \[['map'], 'b', ':cursive.repl.actions/execute-bookmark', 'Evaluate bookmarks'],
+    \[['map'], 'm', ':cursive.repl.actions/macroexpansion', 'Expand macro'],
+    \[['map'], 'n', ':cursive.repl.actions/switch-namespace', 'Switch namespace'],
+    \[['map'], 'p', ':cursive.repl.actions/print-exception', 'Print exception'],
+    \[['map'], 'o', ':cursive.repl.actions/jump-to-output', 'Jump to the output window'],
+    \[['map'], 'r', ':cursive.repl.actions/jump-to-repl', 'Jump to the REPL window'],
+    \[['map'], 'c', ':cursive.repl.actions/clear-repl', 'Clear REPL output'],
+    \[['map'], 'R', ':cursive.repl.actions/reconnect', 'Reconnect to REPL'],
+    \[['map'], 'C', ':cursive.repl.actions/close', 'Close REPL'],
+    \[['map'], 'i', ':cursive.repl.actions/interrupt', 'Interrupt REPL'],
+    \[['map'], 'S', ':cursive.repl.actions/stop', 'Stop REPL'],
+    \[['map'], 'f', ':cursive.repl.actions/load-file', 'Load file'],
+    \[['map'], 'F', ':cursive.repl.actions/sync-files', 'Synchronize files'],
+    \[['map'], 'T', ':cursive.testing.actions/run-ns-tests', 'Run namespace tests'],
+    \[['map'], 't', ':cursive.testing.actions/run-single-test', 'Run test'],
+    \[['map'], 'M', ':cursive.testing.actions/remove-test-markers', 'Remove test markers'],
+    \[['map'], 'l', ':cursive.testing.actions/rerun-last-test', 'Rerun last test'],
+    \]
+
+" The first-call is a workaround to make the `which-key` register the 
+" descriptions for the Option key.
+call MapModeActionsWithDescriptions('<⌥-a>', major_leader_clojure_action_mappings)
+call MapModeActionsWithDescriptions('<A-a>', major_leader_clojure_action_mappings)
