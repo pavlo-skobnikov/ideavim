@@ -367,12 +367,12 @@ call MapModeActionsWithDescriptions('\b', second_leader_bookmarks_action_mapping
 let g:WhichKeyDesc_OpenLeader = '\o +open'
 
 let second_leader_open_action_mappings = [
-    \[['nmap'], 'w', 'EditSourceInNewWindow', 'New buffer window'],
-    \[['nmap'], 'f', 'OpenProjectWindows', 'Search windows'],
-    \[['noremap'], 'p', 'ActivateProjectToolWindow', 'Toggle project view'],
-    \[['nmap'], 'o', 'RevealIn', 'Reveal in finder'],
-    \[['nmap'], 't', 'ActivateTerminalToolWindow', 'Open terminal'],
-    \[['nmap'], 'T', 'Terminal.OpenInTerminal', 'Open terminal at current file directory'],
+    \[['map'], 'w', 'EditSourceInNewWindow', 'New buffer window'],
+    \[['map'], 'f', 'OpenProjectWindows', 'Search windows'],
+    \[['map'], 'p', 'ActivateProjectToolWindow', 'Toggle project view'],
+    \[['map'], 'o', 'RevealIn', 'Reveal in finder'],
+    \[['map'], 't', 'ActivateTerminalToolWindow', 'Open terminal'],
+    \[['map'], 'T', 'Terminal.OpenInTerminal', 'Open terminal at current file directory'],
     \]
 
 call MapModeActionsWithDescriptions('\o', second_leader_open_action_mappings)
