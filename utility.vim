@@ -2,12 +2,12 @@
 " operators (i.e. `map`, `nmap`, `nnoremap`, etc.) to an action, which is
 " either another Vim key-stroke sequence or the IdeaVim-specific "action" (i.e.
 " <Action>(INTELLIJ_IDEA_ACTION)).
-function! Map(mapping_fns, lhs, rhs)
-    " As `a:mapping_fns` is a list of mapping operators, we need to iterate
+function! Map(mapping_functions, key_sequence, action)
+    " As `a:mapping_functions` is a list of mapping operators, we need to iterate
     " over all of them and apply the mapping.
-    for mapping_fn in a:mapping_fns
+    for mapping_fn in a:mapping_functions
         " Construct a Vimscript statement dynamically and run it w/ `exec`
-        exec mapping_fn . " " . a:lhs . " " . a:rhs
+        exec mapping_fn . " " . a:key_sequence . " " . a:action
     endfor
 endfunction
 
@@ -18,67 +18,48 @@ endfunction
 let g:WhichKeyDesc_VariableNameCounter = 0
 
 " FUNCTION DESCRIPTION: Generates a unique variable name and assigns a
-" concatenation of `lhs` and `desc` as it's value. The generated
-" variable name starts w/ "WhichKeyDesc_", which is then picked up by the
-" `which-key` plugin to create a dynamic keymap-popup window.
-function! CreateWhichKeyDescription(lhs, desc)
+" concatenation of `key_sequence` and `description` as it's value. The
+" generated variable name starts w/ "WhichKeyDesc_", which is then picked
+" up by the `which-key` plugin to create a dynamic keymap-popup window.
+function! CreateWhichKeyDescription(key_sequence, description)
     " Increment the counter by 1.
     let g:WhichKeyDesc_VariableNameCounter += 1
     " Use the counter number to create a unique variable name for `which-key`.
     let variable_name = "WhichKeyDesc_GeneratedName_" . g:WhichKeyDesc_VariableNameCounter
 
-    let mapping_with_description = a:lhs . " " . a:desc
+    let mapping_with_description = a:key_sequence . " " . a:description
 
     exec "let g:" . variable_name . " = '" . mapping_with_description . "'"
 endfunction
 
+" FUNCTION DESCRIPTION: Combines the calls to `Map` and
+" `CreateWhichKeyDescription` into one function.
+function! MapWithDescription(mapping_functions, key_sequence, action, description)
+    call Map(a:mapping_functions, a:key_sequence, a:action)
+    call CreateWhichKeyDescription(a:key_sequence, a:description)
+endfunction
+
+" FUNCTION DESCRIPTION: Generates a unique variable name and assigns a the
+" given `group_name` as it's value prefixed with a '+' sign, which is a
+" which-key plugin convention for grouping keymaps.
 function! CreateWhichKeyGroupDescription(group_key_leader, group_name)
     let group_description = '+' . a:group_name
 
     call CreateWhichKeyDescription(a:group_key_leader, group_description)
 endfunction
 
-" FUNCTION DESCRIPTION: Combines the calls to `Map` and
-" `CreateWhichKeyDescription` into one function.
-function! MapWithDescription(mapping_fns, lhs, rhs, desc)
-    call Map(a:mapping_fns, a:lhs, a:rhs)
-    call CreateWhichKeyDescription(a:lhs, a:desc)
-endfunction
-
-" FUNCTION DESCRIPTION: Allows to define a "mode", which is a collection of
+" FUNCTION DESCRIPTION: Allows to set a "group", which is a collection of
 " mappings under a single keychord prefix.
-"   - `submode_key_leader` is an `lhs` but w/o the last key of the keymap.
+"   - `group_key_leader` is a part of the common `key_sequence` for all
+"     mappings in the group.
+"   - `group_name` is the name of the group.
 "   - `mapping_arguments_list` is a list of lists. The latter being arguments
-"     for the function `MapWithDescription`.
-function! MapModeWithDescriptions(submode_key_leader, mapping_arguments_list)
-    for mapping_arguments in a:mapping_arguments_list
-        let mapping = a:submode_key_leader . mapping_arguments[1]
-
-        call MapWithDescription(mapping_arguments[0], mapping, mapping_arguments[2], mapping_arguments[3])
-    endfor
-endfunction
-
-" FUNCTION DESCRIPTION: Just like `MapWithDescription` but `rhs` is the
-" IdeaVim-specific "action" name, which will be wrapped in the following form:
-" <Action>(`rhs`).
-function! MapActionWithDescription(mapping_fns, lhs, rhs, desc)
-    let wrapped_action = "<Action>(" . a:rhs . ")"
-
-    call MapWithDescription(a:mapping_fns, a:lhs, wrapped_action, a:desc)
-endfunction
-
-" FUNCTION DESCRIPTION: Just like `MapModeWithDescriptions` but instead will
-" call `MapActionWithDescription`.
-function! MapModeActionsWithDescriptions(submode_key_keader, mapping_arguments_list)
-    for mapping_arguments in a:mapping_arguments_list
-        let mapping = a:submode_key_keader . mapping_arguments[1]
-
-        call MapActionWithDescription(mapping_arguments[0], mapping, mapping_arguments[2], mapping_arguments[3])
-    endfor
-endfunction
-
+"     for the function `MapWithDescription` omitting the `mapping_functions`
+"     argument because the 'map' operator is always used.
+" NOTE: The provided `action` within sub-lists should be the name of the
+" Intellij IDEA action. The function will wrap it in the `<Action>(...)` form.
 function! MapActionGroupWithDescriptions(group_key_leader, group_name, mapping_arguments_list)
-    call CreateWhichKeyGroupDescription(a:group_key_leader, prefix_submode_description)
+    call CreateWhichKeyGroupDescription(a:group_key_leader, a:group_name)
 
     for mapping_arguments in a:mapping_arguments_list
         let mapping = a:group_key_leader . mapping_arguments[0]
@@ -88,9 +69,11 @@ function! MapActionGroupWithDescriptions(group_key_leader, group_name, mapping_a
     endfor
 endfunction
 
-
+" FUNCTION DESCRIPTION: Just like the `MapActionGroupWithDescriptions`
+" function, but for plugin actions. The only difference is that the
+" `action` argument will be wrapped in the `<Plug>(...)` form.
 function! MapPlugGroupWithDescriptions(group_key_leader, group_name, mapping_arguments_list)
-    call CreateWhichKeyGroupDescription(a:group_key_leader, prefix_submode_description)
+    call CreateWhichKeyGroupDescription(a:group_key_leader, a:group_name)
 
     for mapping_arguments in a:mapping_arguments_list
         let mapping = a:group_key_leader . mapping_arguments[0]
