@@ -1,4 +1,4 @@
-" This files enables IdeaVim plugins and contains plugin-specific
+" This file enables IdeaVim plugins and contains plugin-specific
 " configurations.
 "
 " REFERENCE: https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins
@@ -50,7 +50,7 @@ call MapPlugGroupWithDescriptions(vim_easymotion_leader_key, 'seek', [
     \['/', 'easymotion-jumptoanywhere', 'To anywhere'],
     \])
 
-call MapPlugGroupWithDescriptions(vim_easymotion_leader_key . 'g', 'g', [
+call MapPlugGroupWithDescriptions(vim_easymotion_leader_key . 'g', 'goto', [
     \['e', 'easymotion-ge', 'ge'],
     \['E', 'easymotion-gE', 'gE'],
     \])
@@ -70,6 +70,15 @@ Plug 'tpope/vim-surround'
 let g:WhichKeyDesc_VimSurroundAddLeader = 'ys +add-surround'
 let g:WhichKeyDesc_VimSurroundChangeLeader = 'cs +change-surround'
 let g:WhichKeyDesc_VimSurroundDeleteLeader = 'ds +delete-surround'
+
+" Comment/uncomment lines.
+Plug 'vim-commentary'
+
+let g:WhichKeyDesc_VimCommentaryLeader = 'gc +comment'
+
+" Replace text with the contents of a register w/o losing
+" system register contents.
+Plug 'ReplaceWithRegister'
 
 " Navigate file tree w/ vim keys.
 Plug 'preservim/nerdtree'
