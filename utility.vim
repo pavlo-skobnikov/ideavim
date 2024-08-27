@@ -30,7 +30,12 @@ function! CreateWhichKeyDescription(lhs, desc)
     let mapping_with_description = a:lhs . " " . a:desc
 
     exec "let g:" . variable_name . " = '" . mapping_with_description . "'"
-    echo "let g:" . variable_name . " = '" . mapping_with_description . "'"
+endfunction
+
+function! CreateWhichKeyGroupDescription(group_key_leader, group_name)
+    let group_description = '+' . a:group_name
+
+    call CreateWhichKeyDescription(a:group_key_leader, group_description)
 endfunction
 
 " FUNCTION DESCRIPTION: Combines the calls to `Map` and
@@ -72,14 +77,23 @@ function! MapModeActionsWithDescriptions(submode_key_keader, mapping_arguments_l
     endfor
 endfunction
 
-
-function! MapPlugModeWithDescriptions(submode_key_leader, submode_name, mapping_arguments_list)
-    " Create a prefix description for the submode.
-    let prefix_submode_description = '+' . a:submode_name
-    call CreateWhichKeyDescription(a:submode_key_leader, prefix_submode_description)
+function! MapActionGroupWithDescriptions(group_key_leader, group_name, mapping_arguments_list)
+    call CreateWhichKeyGroupDescription(a:group_key_leader, prefix_submode_description)
 
     for mapping_arguments in a:mapping_arguments_list
-        let mapping = a:submode_key_leader . mapping_arguments[0]
+        let mapping = a:group_key_leader . mapping_arguments[0]
+        let plugin_rhs = "<Action>(" . mapping_arguments[1] . ")"
+
+        call MapWithDescription(['map'], mapping, plugin_rhs, mapping_arguments[2])
+    endfor
+endfunction
+
+
+function! MapPlugGroupWithDescriptions(group_key_leader, group_name, mapping_arguments_list)
+    call CreateWhichKeyGroupDescription(a:group_key_leader, prefix_submode_description)
+
+    for mapping_arguments in a:mapping_arguments_list
+        let mapping = a:group_key_leader . mapping_arguments[0]
         let plugin_rhs = "<Plug>(" . mapping_arguments[1] . ")"
 
         call MapWithDescription(['map'], mapping, plugin_rhs, mapping_arguments[2])

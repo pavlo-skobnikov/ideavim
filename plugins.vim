@@ -30,7 +30,7 @@ Plug 'vim-easymotion'
 
 let vim_easymotion_leader_key = 'gs'
 
-call MapPlugModeWithDescriptions(vim_easymotion_leader_key, 'seek', [
+call MapPlugGroupWithDescriptions(vim_easymotion_leader_key, 'seek', [
     \['f', 'easymotion-f', 'f'],
     \['F', 'easymotion-F', 'F'],
     \['t', 'easymotion-t', 't'],
@@ -50,7 +50,7 @@ call MapPlugModeWithDescriptions(vim_easymotion_leader_key, 'seek', [
     \['/', 'easymotion-jumptoanywhere', 'To anywhere'],
     \])
 
-call MapPlugModeWithDescriptions(vim_easymotion_leader_key . 'g', 'g', [
+call MapPlugGroupWithDescriptions(vim_easymotion_leader_key . 'g', 'g', [
     \['e', 'easymotion-ge', 'ge'],
     \['E', 'easymotion-gE', 'gE'],
     \])
