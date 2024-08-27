@@ -34,16 +34,6 @@ vmap , <Action>(EditorUnSelectWord)
 " Toggle fold.
 call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
 
-" Harpoon.
-nmap <C-q> <Action>(AddToHarpoon)
-nmap <C-e> <Action>(ShowHarpoon)
-
-nmap <C-1> <Action>(GotoHarpoon1)
-nmap <C-2> <Action>(GotoHarpoon2)
-nmap <C-3> <Action>(GotoHarpoon3)
-nmap <C-4> <Action>(GotoHarpoon4)
-nmap <C-5> <Action>(GotoHarpoon5)
-
 " Debugging actions.
 map <F1> <Action>(Resume)
 map <F2> <Action>(StepInto)
