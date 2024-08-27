@@ -67,14 +67,14 @@ Plug 'machakann/vim-highlightedyank'
 " Surround text objects w/ paired characters.
 Plug 'tpope/vim-surround'
 
-let g:WhichKeyDesc_VimSurroundAddLeader = 'ys +add-surround'
-let g:WhichKeyDesc_VimSurroundChangeLeader = 'cs +change-surround'
-let g:WhichKeyDesc_VimSurroundDeleteLeader = 'ds +delete-surround'
+call CreateWhichKeyGroupDescription('ys', 'add-surround')
+call CreateWhichKeyGroupDescription('cs', 'change-surround')
+call CreateWhichKeyGroupDescription('ds', 'delete-surround')
 
 " Comment/uncomment lines.
 Plug 'vim-commentary'
 
-let g:WhichKeyDesc_VimCommentaryLeader = 'gc +comment'
+call CreateWhichKeyGroupDescription('gc', 'comment')
 
 " Replace text with the contents of a register w/o losing
 " system register contents.
