@@ -1,7 +1,13 @@
 " -> https://github.com/JetBrains/ideavim/wiki
 
+" Source the utility functions.
+source ~/dotfiles/ideavim/utility.vim
+
 " Basic configurations.
 source ~/dotfiles/ideavim/settings.vim
+
+" Plugins.
+source ~/dotfiles/ideavim/plugins.vim
 
 " Mappings.
 source ~/dotfiles/ideavim/mappings.vim
