@@ -3,6 +3,12 @@
 " Remove highlights on Escape.
 nnoremap <Esc> :<C-u>nohl<CR><Esc>
 
+" Quick-switch between splits.
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 " Center screen on page movement.
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
@@ -53,7 +59,7 @@ call MapActionGroupWithDescriptions('g', 'goto', [
     \['W', 'GotoSymbol', 'Open workspace symbol picker'],
     \['w', 'FileStructurePopup', 'Open file symbol picker'],
     \['C', 'GotoClass', 'Open workspace class picker'],
-    \['c', 'RenameElement', "Change symbol's name"],
+    \['A', 'RenameElement', 'Rename symbol'],
     \])
 
 " Language server actions.
