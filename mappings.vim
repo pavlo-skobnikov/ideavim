@@ -69,8 +69,10 @@ call MapActionGroupWithDescriptions('gl', 'lsp', [
     \['m', 'RefactoringMenu', 'Open refactor menu'],
     \['g', 'Generate', 'Generate'],
     \['o', 'OptimizeImports', 'Optimize imports'],
+    \['y', 'CopyReference', 'Copy reference'],
     \['c', 'HierarchyGroup', 'Show call hierarchy'],
     \['f', 'ShowErrorDescription', 'Show diagnostics float'],
+    \['q', 'FindUsages', 'Add usages to qflist'],
     \['h', 'HighlightUsagesInFile', 'Highlight symbol references'],
     \['i', 'InspectCode', 'Inspect code'],
     \])
@@ -79,7 +81,7 @@ call MapActionGroupWithDescriptions('gl', 'lsp', [
 call MapActionGroupWithDescriptions('ga', 'actions', [
     \['a', 'GotoAction', 'Open command palette'],
     \['?', 'SearchEverywhere', 'Search everywhere'],
-    \['q', 'ActivateFindToolWindow', 'Open find list'],
+    \['q', 'ActivateFindToolWindow', 'Open qflist'],
     \['d', 'ActivateProblemsViewToolWindow', 'Open diagnostics'],
     \['b', 'ActivateBookmarksToolWindow', 'Open bookmarks'],
     \['f', 'GotoFile', 'Open file picker'],
@@ -94,13 +96,13 @@ call MapActionGroupWithDescriptions('ga', 'actions', [
 " [ and ] pair mappings.
 
 call MapActionGroupWithDescriptions('[', 'previous', [
-    \[['map'], 'q', 'PreviousOccurence', 'Previous searched item'],
+    \[['map'], 'q', 'PreviousOccurence', 'Previous qflist item'],
     \[['map'], 'g', 'VcsShowPrevChangeMarker', 'Previous change'],
     \[['map'], 'd', 'GotoPreviousError', 'Previous diagnostic'],
     \[['map'], 'f', 'MethodUp', 'Previous function'],
     \])
 call MapActionGroupWithDescriptions(']', 'next', [
-    \[['map'], 'q', 'NextOccurence', 'Next searched item'],
+    \[['map'], 'q', 'NextOccurence', 'Next qflist item'],
     \[['map'], 'g', 'VcsShowNextChangeMarker', 'Next change'],
     \[['map'], 'd', 'GotoNextError', 'Next diagnostic'],
     \[['map'], 'f', 'MethodDown', 'Next function'],
