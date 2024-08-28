@@ -12,7 +12,7 @@ set which-key
 let g:WhichKey_DefaultDelay = 50
 
 " Don't show the default vim actions implemented by IdeaVim.
-let g:WhichKey_ShowVimActions = 'true'
+let g:WhichKey_ShowVimActions = 'false'
 
 " Add the entire buffer text object: a-/ie (around/inside the (entire) buffer contents).
 Plug 'kana/vim-textobj-entire'
@@ -67,18 +67,31 @@ Plug 'machakann/vim-highlightedyank'
 " Surround text objects w/ paired characters.
 Plug 'tpope/vim-surround'
 
-call CreateWhichKeyGroupDescription('ys', 'add-surround')
+let add_surround_leader_key = 'ys'
+
+call CreateWhichKeyGroupDescription(add_surround_leader_key, 'add-surround')
+call CreateWhichKeyDescription(add_surround_leader_key . 's', 'Surround line')
+
 call CreateWhichKeyGroupDescription('cs', 'change-surround')
 call CreateWhichKeyGroupDescription('ds', 'delete-surround')
 
 " Comment/uncomment lines.
 Plug 'vim-commentary'
 
-call CreateWhichKeyGroupDescription('gc', 'comment')
+let comment_leader_key = 'gc'
+
+call CreateWhichKeyGroupDescription(comment_leader_key, 'comment')
+call CreateWhichKeyDescription(comment_leader_key . 'c', 'Comment line')
+call CreateWhichKeyDescription(comment_leader_key . 'u', 'Uncomment line')
 
 " Replace text with the contents of a register w/o losing
 " system register contents.
 Plug 'ReplaceWithRegister'
+
+let replace_with_register_leader_key = 'gr'
+
+call CreateWhichKeyGroupDescription(replace_with_register_leader_key, 'replace-with-register')
+call CreateWhichKeyDescription(replace_with_register_leader_key . 'r', 'Replace line')
 
 " Navigate file tree w/ vim keys.
 Plug 'preservim/nerdtree'
