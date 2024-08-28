@@ -50,7 +50,6 @@ vnoremap <Space> :action LeaderAction<cr>
 
 " Basic GOTO mappings.
 call MapActionGroupWithDescriptions('g', 'goto', [
-    \['!', 'IdeaVim.ReloadVimRc.reload', 'Reload IdeaVim configuration'],
     \['d', 'GotoDeclaration', 'Goto definition'],
     \['D', 'GotoTypeDeclaration', 'Goto type declaration'],
     \['R', 'ShowUsages', 'Goto references'],
@@ -93,17 +92,16 @@ call MapActionGroupWithDescriptions('ga', 'actions', [
     \['~', 'JumpToLastWindow', 'Show last window'],
     \])
 
-" [ and ] pair mappings.
-
+" Previous and next mappings.
 call MapActionGroupWithDescriptions('[', 'previous', [
-    \[['map'], 'q', 'PreviousOccurence', 'Previous qflist item'],
-    \[['map'], 'g', 'VcsShowPrevChangeMarker', 'Previous change'],
-    \[['map'], 'd', 'GotoPreviousError', 'Previous diagnostic'],
-    \[['map'], 'f', 'MethodUp', 'Previous function'],
+    \['q', 'PreviousOccurence', 'Previous qflist item'],
+    \['g', 'VcsShowPrevChangeMarker', 'Previous change'],
+    \['d', 'GotoPreviousError', 'Previous diagnostic'],
+    \['f', 'MethodUp', 'Previous function'],
     \])
 call MapActionGroupWithDescriptions(']', 'next', [
-    \[['map'], 'q', 'NextOccurence', 'Next qflist item'],
-    \[['map'], 'g', 'VcsShowNextChangeMarker', 'Next change'],
-    \[['map'], 'd', 'GotoNextError', 'Next diagnostic'],
-    \[['map'], 'f', 'MethodDown', 'Next function'],
+    \['q', 'NextOccurence', 'Next qflist item'],
+    \['g', 'VcsShowNextChangeMarker', 'Next change'],
+    \['d', 'GotoNextError', 'Next diagnostic'],
+    \['f', 'MethodDown', 'Next function'],
     \])
