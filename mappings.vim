@@ -3,12 +3,6 @@
 " Remove highlights on Escape.
 nnoremap <Esc> :<C-u>nohl<CR><Esc>
 
-" Quick-switch between splits.
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
 " Center screen on page movement.
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
@@ -43,10 +37,6 @@ map <F1> <Action>(Resume)
 map <F2> <Action>(StepInto)
 map <F3> <Action>(StepOver)
 map <F4> <Action>(StepOut)
-
-" Trigger Ataman.
-nnoremap <Space> :action LeaderAction<cr>
-vnoremap <Space> :action LeaderAction<cr>
 
 " Basic GOTO mappings.
 call MapActionGroupWithDescriptions('g', 'goto', [
