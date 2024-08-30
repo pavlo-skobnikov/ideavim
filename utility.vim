@@ -53,32 +53,14 @@ endfunction
 "   - `group_key_leader` is a part of the common `key_sequence` for all
 "     mappings in the group.
 "   - `group_name` is the name of the group.
-"   - `mapping_arguments_list` is a list of lists. The latter being arguments
-"     for the function `MapWithDescription` omitting the `mapping_functions`
-"     argument because the 'map' operator is always used.
-" NOTE: The provided `action` within sub-lists should be the name of the
-" Intellij IDEA action. The function will wrap it in the `<Action>(...)` form.
-function! MapActionGroupWithDescriptions(group_key_leader, group_name, mapping_arguments_list)
+"   - `mapping_arguments_list` is a list of lists. The nested lists are 
+" arguments for the function `MapWithDescription`
+function! MapGroupWithDescriptions(group_key_leader, group_name, mapping_arguments_list)
     call CreateWhichKeyGroupDescription(a:group_key_leader, a:group_name)
 
     for mapping_arguments in a:mapping_arguments_list
-        let mapping = a:group_key_leader . mapping_arguments[0]
-        let plugin_rhs = "<Action>(" . mapping_arguments[1] . ")"
+        let mapping = a:group_key_leader . mapping_arguments[1]
 
-        call MapWithDescription(['map'], mapping, plugin_rhs, mapping_arguments[2])
-    endfor
-endfunction
-
-" FUNCTION DESCRIPTION: Just like the `MapActionGroupWithDescriptions`
-" function, but for plugin actions. The only difference is that the
-" `action` argument will be wrapped in the `<Plug>(...)` form.
-function! MapPlugGroupWithDescriptions(group_key_leader, group_name, mapping_arguments_list)
-    call CreateWhichKeyGroupDescription(a:group_key_leader, a:group_name)
-
-    for mapping_arguments in a:mapping_arguments_list
-        let mapping = a:group_key_leader . mapping_arguments[0]
-        let plugin_rhs = "<Plug>(" . mapping_arguments[1] . ")"
-
-        call MapWithDescription(['map'], mapping, plugin_rhs, mapping_arguments[2])
+        call MapWithDescription(mapping_arguments[0], mapping, mapping_arguments[2], mapping_arguments[3])
     endfor
 endfunction
