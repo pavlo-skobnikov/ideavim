@@ -7,24 +7,15 @@ nnoremap <Esc> :<C-u>nohl<CR><Esc>
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 
+" Increase/decrease selection.
+vmap ; <Action>(EditorSelectWord)
+vmap , <Action>(EditorUnSelectWord)
+
 " Show extra info.
 let extra_info_map_fns = ['nmap', 'vmap', 'imap']
 
 call Map(extra_info_map_fns, '<C-S-k>', '<Action>(ParameterInfo)')
 call Map(extra_info_map_fns, '<A-S-k>', '<Action>(ExpressionTypeInfo)')
-
-" Add a new line above/below the current line.
-nnoremap [<Space> mzO<Esc>`z
-vnoremap [<Space> <Esc>O<Esc>gv
-call CreateWhichKeyDescription('[<Space>', 'Add line above')
-
-nnoremap ]<Space> mzo<Esc>`z
-vnoremap [<Space> <Esc>O<Esc>gv
-call CreateWhichKeyDescription(']<Space>', 'Add line below')
-
-" Increase/decrease selection.
-vmap ; <Action>(EditorSelectWord)
-vmap , <Action>(EditorUnSelectWord)
 
 " Toggle fold.
 call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
@@ -35,16 +26,19 @@ call MapGroupWithDescriptions('[', 'previous', [
     \[['map'], 'g', '<Action>(VcsShowPrevChangeMarker)', 'Previous change'],
     \[['map'], 'd', '<Action>(GotoPreviousError)', 'Previous diagnostic'],
     \[['map'], 'f', '<Action>(MethodUp)', 'Previous function'],
+    \[['nnoremap'], '[<Space>', 'mzO<Esc>`z', 'Add line above'],
+    \[['vnoremap'], '[<Space>', '<Esc>O<Esc>gv', 'Add line above'],
     \])
 call MapGroupWithDescriptions(']', 'next', [
     \[['map'], 'q', '<Action>(NextOccurence)', 'Next qflist item'],
     \[['map'], 'g', '<Action>(VcsShowNextChangeMarker)', 'Next change'],
     \[['map'], 'd', '<Action>(GotoNextError)', 'Next diagnostic'],
     \[['map'], 'f', '<Action>(MethodDown)', 'Next function'],
+    \[['nnoremap'], ']<Space>', 'mzo<Esc>`z', 'Add line below'],
+    \[['vnoremap'], '[<Space>', '<Esc>O<Esc>gv', 'Add line below'],
     \])
 
 " Goto mode.
-" TODO: Add gs, gh, and gl!
 call MapGroupWithDescriptions('g', 'goto', [
     \[['map'], 'd', '<Action>(GotoDeclaration)', 'Goto definition'],
     \[['map'], 'y', '<Action>(GotoTypeDeclaration)', 'Goto type declaration'],
@@ -53,6 +47,10 @@ call MapGroupWithDescriptions('g', 'goto', [
     \[['map'], 'i', '<Action>(GotoImplementation)', 'Goto implementation'],
     \[['map'], 'I', '<Action>(GotoSuperMethod)', 'Goto super'],
     \[['map'], 'c', '<Action>(GotoClass)', 'Open workspace class picker'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 'e', 'G', 'Goto last line'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 'h', '0', 'Goto line start'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 'l', '$', 'Goto line end'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 's', '^', 'Goto first non-blank in line'],
     \])
 
 " Space mode.
