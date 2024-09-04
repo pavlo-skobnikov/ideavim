@@ -96,6 +96,7 @@ call MapGroupWithDescriptions('<leader>w', 'window', [
     \[['noremap'], 'j', '<C-w>j', 'Jump to split below'],
     \[['noremap'], 'k', '<C-w>k', 'Jump to split above'],
     \[['noremap'], 'l', '<C-w>l', 'Jump to right split'],
+    \[['map'], 't', '<Action>(HideAllWindows)', 'Toggle tool windows'],
     \])
 
 " Space debug mode.
