@@ -46,6 +46,7 @@ call MapGroupWithDescriptions('g', 'goto', [
     \[['map'], 'R', '<Action>(FindUsages)', 'Add references to qflist'],
     \[['map'], 'i', '<Action>(GotoImplementation)', 'Goto implementation'],
     \[['map'], 'I', '<Action>(GotoSuperMethod)', 'Goto super'],
+    \[['map'], 'T', '<Action>(GotoTest)', 'Goto test'],
     \[['map'], 'c', '<Action>(GotoClass)', 'Open workspace class picker'],
     \[['nnoremap', 'vnoremap', 'xnoremap'], 'e', 'G', 'Goto last line'],
     \[['nnoremap', 'vnoremap', 'xnoremap'], 'h', '0', 'Goto line start'],
@@ -111,17 +112,12 @@ call MapGroupWithDescriptions(space_debug_mode_leader, 'debug', [
     \[['map'], 'n', '<Action>(StepOver)', 'Step to next'],
     \[['map'], 'r', '<Action>(RunToCursor)', 'Run to cursor'],
     \[['map'], 't', '<Action>(Stop)', 'End debug session'],
-    \[['map'], '<C-f>', '<Action>(ToggleFieldBreakpoint)', 'Add field breakpoint'],
-    \[['map'], '<C-m>', '<Action>(ToggleMethodBreakpoint)', 'Add method breakpoint'],
-    \[['map'], '<C-c>', '<Action>(AddConditionalBreakpoint)', 'Add conditional breakpoint'],
+    \[['map'], 'F', '<Action>(ToggleFieldBreakpoint)', 'Add field breakpoint'],
+    \[['map'], 'M', '<Action>(ToggleMethodBreakpoint)', 'Add method breakpoint'],
+    \[['map'], 'C', '<Action>(AddConditionalBreakpoint)', 'Add conditional breakpoint'],
     \[['map'], 'f', '<Action>(ViewBreakpoints)', 'Search breakpoints'],
     \[['map'], 'd', '<Action>(ActivateDebugToolWindow)', 'Open debug tool window'],
     \])
-
-" Workaround for descriptions of actions mapped to the Control modifier.
-call CreateWhichKeyDescription(space_debug_mode_leader . '<⌃-f>', 'Add field breakpoint')
-call CreateWhichKeyDescription(space_debug_mode_leader . '<⌃-m>', 'Add method breakpoint')
-call CreateWhichKeyDescription(space_debug_mode_leader . '<⌃-c>', 'Add conditional breakpoint')
 
 " Space language server mode.
 call MapGroupWithDescriptions('<leader>l', 'language-server', [
@@ -145,7 +141,7 @@ call MapGroupWithDescriptions('\', 'backslash', [
     \])
 
 " Backslash file mode.
-call MapGroupWithDescriptions('<leader>f', 'files', [
+call MapGroupWithDescriptions('\f', 'files', [
     \[['map'], 'c', '<Action>(NewElement)', 'Create file'],
     \[['map'], 'r', '<Action>(SynchronizeCurrentFile)', 'Reload From Disk'],
     \[['map'], 'R', '<Action>(Synchronize)', 'Reload All From Disk'],
@@ -192,4 +188,12 @@ call MapGroupWithDescriptions('\r', 'run', [
     \[['map'], 't', '<Action>(RerunTests)', 'Launch test run target'],
     \[['map'], 'f', '<Action>(RerunFailedTests)', 'Launch failed tests run target'],
     \[['map'], 't', '<Action>(Stop)', 'End run session'],
+    \])
+
+" Backslash code mode.
+call MapGroupWithDescriptions('\c', 'code', [
+    \[['map'], 'm', '<Action>(Maven.ExecuteGoal)', 'Execute Maven goal'],
+    \[['map'], 'M', '<Action>(ActivateMavenToolWindow)', 'Open Maven tool window'],
+    \[['map'], 'g', '<Action>(Gradle.ExecuteTask)', 'Execute Gradle task'],
+    \[['map'], 'G', '<Action>(ActivateGradleToolWindow)', 'Open Gradle tool window'],
     \])
