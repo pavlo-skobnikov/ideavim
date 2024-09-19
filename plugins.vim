@@ -24,34 +24,8 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'vim-scripts/argtextobj.vim'
 
 " Jump anywhere in the buffer w/ easymotion.
-let g:EasyMotion_do_mapping = 0 " Disable default mappings.
-
+" Mappings -> https://github.com/AlexPl292/IdeaVim-EasyMotion?tab=readme-ov-file#supported-commands
 Plug 'vim-easymotion'
-
-let vim_easymotion_leader_key = 'gw'
-
-call MapGroupWithDescriptions(vim_easymotion_leader_key, 'jump', [
-    \[['map'], 'f', '<Plug>(easymotion-f)', 'f'],
-    \[['map'], 'F', '<Plug>(easymotion-F)', 'F'],
-    \[['map'], 't', '<Plug>(easymotion-t)', 't'],
-    \[['map'], 'T', '<Plug>(easymotion-T)', 'T'],
-    \[['map'], 'w', '<Plug>(easymotion-w)', 'w'],
-    \[['map'], 'W', '<Plug>(easymotion-W)', 'W'],
-    \[['map'], 'b', '<Plug>(easymotion-b)', 'b'],
-    \[['map'], 'B', '<Plug>(easymotion-B)', 'B'],
-    \[['map'], 'e', '<Plug>(easymotion-e)', 'e'],
-    \[['map'], 'E', '<Plug>(easymotion-E)', 'E'],
-    \[['map'], 'j', '<Plug>(easymotion-j)', 'Lines down'],
-    \[['map'], 'k', '<Plug>(easymotion-k)', 'Lines up'],
-    \[['map'], 'n', '<Plug>(easymotion-n)', 'Matches'],
-    \[['map'], 'N', '<Plug>(easymotion-N)', 'Matches backwards'],
-    \[['map'], '/', '<Plug>(easymotion-jumptoanywhere)', 'To anywhere'],
-    \])
-
-call MapGroupWithDescriptions(vim_easymotion_leader_key . 'g', 'goto', [
-    \[['map'], 'e', '<Action>(easymotion-ge)', 'ge'],
-    \[['map'], 'E', '<Action>(easymotion-gE)', 'gE'],
-    \])
 
 " Improvements to `{` and `}` motions to include blank lines as well.
 Plug 'dbakker/vim-paragraph-motion'
@@ -72,6 +46,26 @@ call CreateWhichKeyDescription(add_surround_leader_key . 's', 'Surround line')
 
 call CreateWhichKeyGroupDescription('cs', 'change-surround')
 call CreateWhichKeyGroupDescription('ds', 'delete-surround')
+
+" Easily comment code out.
+Plug 'tpope/vim-commentary'
+
+call CreateWhichKeyGroupDescription('gc', 'comment')
+
+" Replace w/ register contents.
+Plug 'vim-scripts/ReplaceWithRegister'
+
+call CreateWhichKeyGroupDescription('gr', 'replace')
+call CreateWhichKeyDescription('grr', 'Replace line with register')
+
+" Move text easily in two steps.
+Plug 'tommcdo/vim-exchange'
+
+call CreateWhichKeyGroupDescription('cx', 'exchange')
+call CreateWhichKeyGroupDescription('X', 'exchange')
+
+call CreateWhichKeyDescription('cxc', 'Clear exchange')
+call CreateWhichKeyDescription('cxx', 'Exchange line')
 
 " Navigate file tree w/ vim keys.
 Plug 'preservim/nerdtree'
