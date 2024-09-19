@@ -20,6 +20,9 @@ call Map(extra_info_map_fns, '<A-S-k>', '<Action>(ExpressionTypeInfo)')
 " Toggle fold.
 call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
 
+" Hide/show toolbar windows.
+call MapWithDescription(['map'], '<C-w>t', '<Action>(HideAllWindows)', 'Toggle tool windows')
+
 " Previous and next mappings.
 call MapGroupWithDescriptions('[', 'previous', [
     \[['map'], 'q', '<Action>(PreviousOccurence)', 'Previous qflist item'],
@@ -81,22 +84,6 @@ call MapGroupWithDescriptions('<leader>', 'space', [
     \[['map'], 'c', '<Action>(ShowHoverInfo)', 'Comment/uncomment'],
     \[['map'], 'C', '<Action>(ShowHoverInfo)', 'Block comment/uncomment'],
     \[['map'], '?', '<Action>(GotoAction)', 'Open command palette'],
-    \])
-
-" Space window mode.
-call MapGroupWithDescriptions('<leader>w', 'window', [
-    \[['noremap'], 'w', '<C-w>w', 'Goto next window'],
-    \[['noremap'], 's', '<C-w>s', 'Horizontal bottom split'],
-    \[['noremap'], 'v', '<C-w>v', 'Vertical right split'],
-    \[['noremap'], 'd', '<C-w>sgd', 'Goto definition (hsplit)'],
-    \[['noremap'], 'D', '<C-w>vgd', 'Goto definition (vsplit)'],
-    \[['noremap'], 'q', '<C-w>c', 'Close window'],
-    \[['noremap'], 'o', '<C-w>o', 'Close windows except current'],
-    \[['noremap'], 'h', '<C-w>h', 'Jump to left split'],
-    \[['noremap'], 'j', '<C-w>j', 'Jump to split below'],
-    \[['noremap'], 'k', '<C-w>k', 'Jump to split above'],
-    \[['noremap'], 'l', '<C-w>l', 'Jump to right split'],
-    \[['map'], 't', '<Action>(HideAllWindows)', 'Toggle tool windows'],
     \])
 
 " Space debug mode.
