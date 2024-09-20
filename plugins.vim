@@ -23,10 +23,6 @@ Plug 'michaeljsmith/vim-indent-object'
 " Text objects for arguments and parameters.
 Plug 'vim-scripts/argtextobj.vim'
 
-" Jump anywhere in the buffer w/ easymotion.
-" Mappings -> https://github.com/AlexPl292/IdeaVim-EasyMotion?tab=readme-ov-file#supported-commands
-Plug 'vim-easymotion'
-
 " Improvements to `{` and `}` motions to include blank lines as well.
 Plug 'dbakker/vim-paragraph-motion'
 
@@ -47,11 +43,6 @@ call CreateWhichKeyDescription(add_surround_leader_key . 's', 'Surround line')
 call CreateWhichKeyGroupDescription('cs', 'change-surround')
 call CreateWhichKeyGroupDescription('ds', 'delete-surround')
 
-" Easily comment code out.
-Plug 'tpope/vim-commentary'
-
-call CreateWhichKeyGroupDescription('gc', 'comment')
-
 " Replace w/ register contents.
 Plug 'vim-scripts/ReplaceWithRegister'
 
@@ -62,7 +53,6 @@ call CreateWhichKeyDescription('grr', 'Replace line with register')
 Plug 'tommcdo/vim-exchange'
 
 call CreateWhichKeyGroupDescription('cx', 'exchange')
-call CreateWhichKeyGroupDescription('X', 'exchange')
 
 call CreateWhichKeyDescription('cxc', 'Clear exchange')
 call CreateWhichKeyDescription('cxx', 'Exchange line')
