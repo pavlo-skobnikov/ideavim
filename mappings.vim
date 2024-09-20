@@ -1,5 +1,6 @@
 " This file defines my personal key mappings for IdeaVim.
 
+"" Basic miscellaneous mappings.
 " Remove highlights on Escape.
 nnoremap <Esc> :<C-u>nohl<CR><Esc>
 
@@ -17,47 +18,67 @@ let extra_info_map_fns = ['nmap', 'vmap', 'imap']
 call Map(extra_info_map_fns, '<C-S-k>', '<Action>(ParameterInfo)')
 call Map(extra_info_map_fns, '<A-S-k>', '<Action>(ExpressionTypeInfo)')
 
-" Toggle fold.
+"" 'z' additional mappings and descriptions.
 call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
 
-" Hide/show toolbar windows.
-call MapWithDescription(['map'], '<C-w>t', '<Action>(HideAllWindows)', 'Toggle tool windows')
+call CreateWhichKeyDescription('zc', 'Collapse fold')
+call CreateWhichKeyDescription('zC', 'Collapse fold recursively')
+call CreateWhichKeyDescription('zM', 'Collapse all folds')
 
-" Previous and next mappings.
+call CreateWhichKeyDescription('zo', 'Open fold')
+call CreateWhichKeyDescription('zO', 'Open folds recursively')
+call CreateWhichKeyDescription('zR', 'Open all folds')
+
+"" <C-w> additional mappings.
+" Toggle tool windows.
+map <C-w>t <Action>(HideAllWindows)
+
+" Toggle tool windows.
+map <C-w>t <Action>(HideAllWindows)
+
+" Close current window.
+map <C-w>q <C-w>c
+
+" Show diagnostics float.
+map <C-w>d <Action>(ShowErrorDescription)
+
+"" Previous and next mappings.
 call MapGroupWithDescriptions('[', 'previous', [
-    \[['map'], 'q', '<Action>(PreviousOccurence)', 'Previous qflist item'],
-    \[['map'], 'g', '<Action>(VcsShowPrevChangeMarker)', 'Previous change'],
-    \[['map'], 'd', '<Action>(GotoPreviousError)', 'Previous diagnostic'],
-    \[['map'], 'f', '<Action>(MethodUp)', 'Previous function'],
-    \[['nnoremap'], '[<Space>', 'mzO<Esc>`z', 'Add line above'],
-    \[['vnoremap'], '[<Space>', '<Esc>O<Esc>gv', 'Add line above'],
+    \[['map'], 'd', '<Action>(GotoPreviousError)', 'Goto previous diagnostic'],
+    \[['map'], 'g', '<Action>(VcsShowPrevChangeMarker)', 'Goto previous change'],
+    \[['map'], 'f', '<Action>(MethodUp)', 'Goto previous function'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 'p', '{', 'Goto previous paragraph'],
+    \[['nnoremap'], '<Space>', 'mzO<Esc>`z', 'Add newline above'],
+    \[['vnoremap'], '<Space>', '<Esc>O<Esc>gv', 'Add newline above'],
+    \[['map'], 'q', '<Action>(PreviousOccurence)', 'Goto previous qflist item'],
     \])
 call MapGroupWithDescriptions(']', 'next', [
-    \[['map'], 'q', '<Action>(NextOccurence)', 'Next qflist item'],
-    \[['map'], 'g', '<Action>(VcsShowNextChangeMarker)', 'Next change'],
-    \[['map'], 'd', '<Action>(GotoNextError)', 'Next diagnostic'],
-    \[['map'], 'f', '<Action>(MethodDown)', 'Next function'],
-    \[['nnoremap'], ']<Space>', 'mzo<Esc>`z', 'Add line below'],
-    \[['vnoremap'], '[<Space>', '<Esc>O<Esc>gv', 'Add line below'],
+    \[['map'], 'd', '<Action>(GotoNextError)', 'Goto next diagnostic'],
+    \[['map'], 'g', '<Action>(VcsShowNextChangeMarker)', 'Goto next change'],
+    \[['map'], 'f', '<Action>(MethodDown)', 'Goto next function'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 'p', '}', 'Goto next paragraph'],
+    \[['nnoremap'], '<Space>', 'mzo<Esc>`z', 'Add newline below'],
+    \[['vnoremap'], '<Space>', '<Esc>O<Esc>gv', 'Add newline below'],
+    \[['map'], 'q', '<Action>(NextOccurence)', 'Goto next qflist item'],
     \])
 
-" Goto mode.
+"" Goto mode.
 call MapGroupWithDescriptions('g', 'goto', [
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 'e', 'G', 'Goto last line'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 'h', '0', 'Goto line start'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 'l', '$', 'Goto line end'],
+    \[['nnoremap', 'vnoremap', 'xnoremap'], 's', '^', 'Goto first non-blank in line'],
     \[['map'], 'd', '<Action>(GotoDeclaration)', 'Goto definition'],
     \[['map'], 'y', '<Action>(GotoTypeDeclaration)', 'Goto type declaration'],
     \[['map'], 'r', '<Action>(ShowUsages)', 'Goto references'],
     \[['map'], 'R', '<Action>(FindUsages)', 'Add references to qflist'],
     \[['map'], 'i', '<Action>(GotoImplementation)', 'Goto implementation'],
     \[['map'], 'I', '<Action>(GotoSuperMethod)', 'Goto super'],
-    \[['map'], 'T', '<Action>(GotoTest)', 'Goto test'],
-    \[['map'], 'c', '<Action>(GotoClass)', 'Open workspace class picker'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 'e', 'G', 'Goto last line'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 'h', '0', 'Goto line start'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 'l', '$', 'Goto line end'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 's', '^', 'Goto first non-blank in line'],
+    \[['map'], 'w', '<Action>(AceWordAction)', 'Jump to a two-character label'],
+    \[['map'], '/', '<Action>(AceAction)', 'Jump to a search label'],
     \])
 
-" Space mode.
+"" Space mode.
 call MapGroupWithDescriptions('<leader>', 'space', [
     \[['map'], 'f', '<Action>(GotoFile)', 'Open file picker'],
     \[['map'], 'F', '<Action>(RecentFiles)', 'Open recently opened files picker'],
@@ -68,7 +89,6 @@ call MapGroupWithDescriptions('<leader>', 'space', [
     \[['map'], 's', '<Action>(FileStructurePopup)', 'Open symbol picker'],
     \[['map'], 'S', '<Action>(GotoSymbol)', 'Open workspace symbol picker'],
     \[['map'], 'd', '<Action>(ActivateProblemsViewToolWindow)', 'Open diagnostics'],
-    \[['map'], 'D', '<Action>(ShowErrorDescription)', 'Show diagnostics float'],
     \[['map'], 'g', '<Action>(RecentChangedFiles)', 'Open recently changed files picker'],
     \[['map'], 'a', '<Action>(ShowIntentionActions)', 'Perform intention action'],
     \[['map'], 'A', '<Action>(Refactorings.QuickListPopupAction)', 'Perform contextual refactor action'],
@@ -81,8 +101,8 @@ call MapGroupWithDescriptions('<leader>', 'space', [
     \[['map'], 'k', '<Action>(ShowHoverInfo)', 'Show docs for item under cursor'],
     \[['map'], 'r', '<Action>(RenameElement)', 'Rename symbol'],
     \[['map'], 'h', '<Action>(HighlightUsagesInFile)', 'Highlight symbol references'],
-    \[['map'], 'c', '<Action>(ShowHoverInfo)', 'Comment/uncomment'],
-    \[['map'], 'C', '<Action>(ShowHoverInfo)', 'Block comment/uncomment'],
+    \[['map'], 'c', '<Action>(CommentByLineComment)', 'Comment/uncomment'],
+    \[['map'], 'C', '<Action>(CommentByBlockComment)', 'Block comment/uncomment'],
     \[['map'], '?', '<Action>(GotoAction)', 'Open command palette'],
     \])
 
@@ -115,6 +135,8 @@ call MapGroupWithDescriptions('<leader>l', 'language-server', [
     \[['map'], 'y', '<Action>(CopyReference)', 'Yank reference'],
     \[['map'], 'h', '<Action>(HierarchyGroup)', 'Show code hierarchy'],
     \[['map'], 'i', '<Action>(InspectCode)', 'Inspect code'],
+    \[['map'], 't', '<Action>(GotoTest)', 'Switch between tests and implementation'],
+    \[['map'], 'c', '<Action>(GotoClass)', 'Open workspace class picker'],
     \])
 
 " Backslash mode.
