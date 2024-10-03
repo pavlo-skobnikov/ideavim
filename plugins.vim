@@ -43,19 +43,5 @@ call CreateWhichKeyDescription(add_surround_leader_key . 's', 'Surround line')
 call CreateWhichKeyGroupDescription('cs', 'change-surround')
 call CreateWhichKeyGroupDescription('ds', 'delete-surround')
 
-" Replace w/ register contents.
-Plug 'vim-scripts/ReplaceWithRegister'
-
-call CreateWhichKeyGroupDescription('gr', 'replace')
-call CreateWhichKeyDescription('grr', 'Replace line with register')
-
-" Move text easily in two steps.
-Plug 'tommcdo/vim-exchange'
-
-call CreateWhichKeyGroupDescription('cx', 'exchange')
-
-call CreateWhichKeyDescription('cxc', 'Clear exchange')
-call CreateWhichKeyDescription('cxx', 'Exchange line')
-
 " Navigate file tree w/ vim keys.
 Plug 'preservim/nerdtree'
