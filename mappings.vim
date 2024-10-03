@@ -139,8 +139,8 @@ call MapGroupWithDescriptions('<leader>l', 'language-server', [
     \[['map'], 'c', '<Action>(GotoClass)', 'Open workspace class picker'],
     \])
 
-" Space extra mode.
-call MapGroupWithDescriptions('<leader>x', 'extra', [
+" Backslash mode.
+call MapGroupWithDescriptions('\', 'backslash', [
     \[['map'], 'e', '<Action>(ActivateProjectToolWindow)', 'Open file explorer'],
     \[['map'], 'E', '<Action>(SelectInProjectView)', 'Open file explorer at current working directory'],
     \[['map'], 'n', '<Action>(NewScratchBuffer)', 'New scratch buffer'],
@@ -150,8 +150,8 @@ call MapGroupWithDescriptions('<leader>x', 'extra', [
     \[['map'], 'W', '<Action>(EditSourceInNewWindow)', 'New buffer window'],
     \])
 
-" Space extra file mode.
-call MapGroupWithDescriptions('<leader>xf', 'files', [
+" Backslash file mode.
+call MapGroupWithDescriptions('\f', 'files', [
     \[['map'], 'c', '<Action>(NewElement)', 'Create file'],
     \[['map'], 'r', '<Action>(SynchronizeCurrentFile)', 'Reload From Disk'],
     \[['map'], 'R', '<Action>(Synchronize)', 'Reload All From Disk'],
@@ -159,8 +159,8 @@ call MapGroupWithDescriptions('<leader>xf', 'files', [
     \[['map'], 'f', '<Action>(RevealIn)', 'Open current file in finder'],
     \])
 
-" Space extra git mode.
-call MapGroupWithDescriptions('<leader>xg', 'git', [
+" Backslash git mode.
+call MapGroupWithDescriptions('\g', 'git', [
     \[['map'], 'g', '<Action>(CheckinProject)', 'Commit changes'],
     \[['map'], 'f', '<Action>(Git.Fetch)', 'Fetch'],
     \[['map'], 'p', '<Action>(Vcs.UpdateProject)', 'Pull'],
@@ -174,22 +174,22 @@ call MapGroupWithDescriptions('<leader>xg', 'git', [
     \[['map'], 'A', '<Action>(Git.FileActions)', 'Git file actions'],
     \])
 
-" Space extra hunks mode.
-call MapGroupWithDescriptions('<leader>xh', 'hunks', [
+" Backslash hunks mode.
+call MapGroupWithDescriptions('\h', 'hunks', [
     \[['map'], 'r', '<Action>(Vcs.RollbackChangedLines)', 'Reset hunk'],
     \[['map'], 'b', '<Action>(Git.Add)', 'Stage buffer'],
     \])
 
-" Space extra terminal mode.
-call MapGroupWithDescriptions('<leader>xt', 'terminal', [
+" Backslash terminal mode.
+call MapGroupWithDescriptions('\t', 'terminal', [
     \[['map'], 't', '<Action>(ActivateTerminalToolWindow)', 'Open terminal'],
     \[['map'], 'c', '<Action>(Terminal.OpenInTerminal)', 'Open terminal at current file directory'],
     \[['map'], 'e', '<Action>(Terminal.MoveToEditor)', 'Open current terminal in editor'],
     \[['map'], 'r', '<Action>(Terminal.RenameSession)', 'Rename current terminal session'],
     \])
 
-" Space extra run mode.
-call MapGroupWithDescriptions('<leader>xr', 'run', [
+" Backslash run mode.
+call MapGroupWithDescriptions('\r', 'run', [
     \[['map'], 'r', '<Action>(ActivateRunToolWindow)', 'Open run tool window'],
     \[['map'], 'l', '<Action>(RunAnything)', 'Launch run target'],
     \[['map'], 'L', '<Action>(Run)', 'Launch current run target'],
@@ -200,8 +200,8 @@ call MapGroupWithDescriptions('<leader>xr', 'run', [
     \[['map'], 't', '<Action>(Stop)', 'End run session'],
     \])
 
-" Space extra code mode.
-call MapGroupWithDescriptions('<leader>xc', 'code', [
+" Backslash code mode.
+call MapGroupWithDescriptions('\c', 'code', [
     \[['map'], 'm', '<Action>(Maven.ExecuteGoal)', 'Execute Maven goal'],
     \[['map'], 'M', '<Action>(ActivateMavenToolWindow)', 'Open Maven tool window'],
     \[['map'], 'g', '<Action>(Gradle.ExecuteTask)', 'Execute Gradle task'],
