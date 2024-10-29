@@ -1,16 +1,13 @@
 " This file defines my personal key mappings for IdeaVim.
 
-"" Basic miscellaneous mappings.
+
+"" Basic mappings.
 " Remove highlights on Escape.
 nnoremap <Esc> :<C-u>nohl<CR><Esc>
 
 " Center screen on page movement.
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
-
-" Increase/decrease selection.
-vmap ; <Action>(EditorSelectWord)
-vmap , <Action>(EditorUnSelectWord)
 
 " Show extra info.
 let extra_info_map_fns = ['nmap', 'vmap', 'imap']
@@ -21,18 +18,24 @@ call Map(extra_info_map_fns, '<A-S-k>', '<Action>(ExpressionTypeInfo)')
 "" 'z' additional mappings and descriptions.
 call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
 
-call CreateWhichKeyDescription('zc', 'Collapse fold')
-call CreateWhichKeyDescription('zC', 'Collapse fold recursively')
-call CreateWhichKeyDescription('zM', 'Collapse all folds')
+" Increase/decrease selection.
+map <A-o> <Action>(EditorSelectWord)
+map <A-i> <Action>(EditorUnSelectWord)
 
-call CreateWhichKeyDescription('zo', 'Open fold')
-call CreateWhichKeyDescription('zO', 'Open folds recursively')
-call CreateWhichKeyDescription('zR', 'Open all folds')
+" Select the entire file contents.
+map % vie
 
-"" <C-w> additional mappings.
-" Toggle tool windows.
-map <C-w>t <Action>(HideAllWindows)
+" Add carets for word/selection under cursor one by one.
+map S <Action>(SelectNextOccurrence)
 
+" Within a selection, search for a regex pattern and add cursors at matches.
+vmap s <Plug>(multicursor-mc/)
+
+" Within a selection, add cursos on the ends of each lines.
+vmap <A-s> <Action>(EditorAddCaretPerSelectedLine)
+
+
+"" Window mode.
 " Toggle tool windows.
 map <C-w>t <Action>(HideAllWindows)
 
@@ -41,6 +44,33 @@ map <C-w>q <C-w>c
 
 " Show diagnostics float.
 map <C-w>d <Action>(ShowErrorDescription)
+
+
+"" Match mode.
+" Go to the matching character.
+noremap mm %
+
+" Select inside objects.
+noremap mi vi
+
+" Select inside argument.
+map mia via
+
+" Select around objects.
+noremap ma va
+
+" Select around argument.
+map maa vaa
+
+" Surround add.
+map ms ys
+
+" Surround delete.
+map md ds
+
+" Surround replace.
+map mr cs
+
 
 "" Previous and next mappings.
 call MapGroupWithDescriptions('[', 'previous', [
@@ -62,6 +92,7 @@ call MapGroupWithDescriptions(']', 'next', [
     \[['map'], 'q', '<Action>(NextOccurence)', 'Goto next qflist item'],
     \])
 
+
 "" Goto mode.
 call MapGroupWithDescriptions('g', 'goto', [
     \[['nnoremap', 'vnoremap', 'xnoremap'], 'e', 'G', 'Goto last line'],
@@ -77,6 +108,7 @@ call MapGroupWithDescriptions('g', 'goto', [
     \[['map'], 'w', '<Action>(AceWordAction)', 'Jump to a two-character label'],
     \[['map'], '/', '<Action>(AceAction)', 'Jump to a search label'],
     \])
+
 
 "" Space mode.
 call MapGroupWithDescriptions('<leader>', 'space', [
@@ -106,7 +138,8 @@ call MapGroupWithDescriptions('<leader>', 'space', [
     \[['map'], '?', '<Action>(GotoAction)', 'Open command palette'],
     \])
 
-" Space debug mode.
+
+"" Space debug mode.
 let space_debug_mode_leader = '<leader>G'
 
 call MapGroupWithDescriptions(space_debug_mode_leader, 'debug', [
@@ -127,7 +160,8 @@ call MapGroupWithDescriptions(space_debug_mode_leader, 'debug', [
     \[['map'], 'd', '<Action>(ActivateDebugToolWindow)', 'Open debug tool window'],
     \])
 
-" Space language server mode.
+
+"" Space language server mode.
 call MapGroupWithDescriptions('<leader>l', 'language-server', [
     \[['map'], 'r', '<Action>(RefactoringMenu)', 'Open refactor menu'],
     \[['map'], 'g', '<Action>(Generate)', 'Generate'],
@@ -139,8 +173,9 @@ call MapGroupWithDescriptions('<leader>l', 'language-server', [
     \[['map'], 'c', '<Action>(GotoClass)', 'Open workspace class picker'],
     \])
 
-" Backslash mode.
-call MapGroupWithDescriptions('\', 'backslash', [
+
+"" Comma mode.
+call MapGroupWithDescriptions(',', 'Comma', [
     \[['map'], 'e', '<Action>(ActivateProjectToolWindow)', 'Open file explorer'],
     \[['map'], 'E', '<Action>(SelectInProjectView)', 'Open file explorer at current working directory'],
     \[['map'], 'n', '<Action>(NewScratchBuffer)', 'New scratch buffer'],
@@ -150,8 +185,9 @@ call MapGroupWithDescriptions('\', 'backslash', [
     \[['map'], 'W', '<Action>(EditSourceInNewWindow)', 'New buffer window'],
     \])
 
-" Backslash file mode.
-call MapGroupWithDescriptions('\f', 'files', [
+
+"" Comma file mode.
+call MapGroupWithDescriptions(',f', 'files', [
     \[['map'], 'c', '<Action>(NewElement)', 'Create file'],
     \[['map'], 'r', '<Action>(SynchronizeCurrentFile)', 'Reload From Disk'],
     \[['map'], 'R', '<Action>(Synchronize)', 'Reload All From Disk'],
@@ -159,8 +195,9 @@ call MapGroupWithDescriptions('\f', 'files', [
     \[['map'], 'f', '<Action>(RevealIn)', 'Open current file in finder'],
     \])
 
-" Backslash git mode.
-call MapGroupWithDescriptions('\g', 'git', [
+
+"" Comma git mode.
+call MapGroupWithDescriptions(',g', 'git', [
     \[['map'], 'g', '<Action>(CheckinProject)', 'Commit changes'],
     \[['map'], 'f', '<Action>(Git.Fetch)', 'Fetch'],
     \[['map'], 'p', '<Action>(Vcs.UpdateProject)', 'Pull'],
@@ -174,22 +211,25 @@ call MapGroupWithDescriptions('\g', 'git', [
     \[['map'], 'A', '<Action>(Git.FileActions)', 'Git file actions'],
     \])
 
-" Backslash hunks mode.
-call MapGroupWithDescriptions('\h', 'hunks', [
+
+"" Comma hunks mode.
+call MapGroupWithDescriptions(',h', 'hunks', [
     \[['map'], 'r', '<Action>(Vcs.RollbackChangedLines)', 'Reset hunk'],
     \[['map'], 'b', '<Action>(Git.Add)', 'Stage buffer'],
     \])
 
-" Backslash terminal mode.
-call MapGroupWithDescriptions('\t', 'terminal', [
+
+"" Comma terminal mode.
+call MapGroupWithDescriptions(',t', 'terminal', [
     \[['map'], 't', '<Action>(ActivateTerminalToolWindow)', 'Open terminal'],
     \[['map'], 'c', '<Action>(Terminal.OpenInTerminal)', 'Open terminal at current file directory'],
     \[['map'], 'e', '<Action>(Terminal.MoveToEditor)', 'Open current terminal in editor'],
     \[['map'], 'r', '<Action>(Terminal.RenameSession)', 'Rename current terminal session'],
     \])
 
-" Backslash run mode.
-call MapGroupWithDescriptions('\r', 'run', [
+
+"" Comma run mode.
+call MapGroupWithDescriptions(',r', 'run', [
     \[['map'], 'r', '<Action>(ActivateRunToolWindow)', 'Open run tool window'],
     \[['map'], 'l', '<Action>(RunAnything)', 'Launch run target'],
     \[['map'], 'L', '<Action>(Run)', 'Launch current run target'],
@@ -200,8 +240,9 @@ call MapGroupWithDescriptions('\r', 'run', [
     \[['map'], 't', '<Action>(Stop)', 'End run session'],
     \])
 
-" Backslash code mode.
-call MapGroupWithDescriptions('\c', 'code', [
+
+"" Comma code mode.
+call MapGroupWithDescriptions(',c', 'code', [
     \[['map'], 'm', '<Action>(Maven.ExecuteGoal)', 'Execute Maven goal'],
     \[['map'], 'M', '<Action>(ActivateMavenToolWindow)', 'Open Maven tool window'],
     \[['map'], 'g', '<Action>(Gradle.ExecuteTask)', 'Execute Gradle task'],
