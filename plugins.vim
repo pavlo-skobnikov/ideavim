@@ -35,13 +35,8 @@ Plug 'machakann/vim-highlightedyank'
 " Surround text objects w/ paired characters.
 Plug 'tpope/vim-surround'
 
-let add_surround_leader_key = 'ys'
-
-call CreateWhichKeyGroupDescription(add_surround_leader_key, 'add-surround')
-call CreateWhichKeyDescription(add_surround_leader_key . 's', 'Surround line')
-
-call CreateWhichKeyGroupDescription('cs', 'change-surround')
-call CreateWhichKeyGroupDescription('ds', 'delete-surround')
+" Easy multiple cursors.
+set multicursor
 
 " Navigate file tree w/ vim keys.
 Plug 'preservim/nerdtree'
