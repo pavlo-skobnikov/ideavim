@@ -28,8 +28,11 @@ map % vie
 " Add carets for word/selection under cursor one by one.
 map S <Action>(SelectNextOccurrence)
 
-" Within a selection, search for a regex pattern and add cursors at matches.
-vmap s <Plug>(multicursor-mc/)
+" Search for regex pattern within the whole file and add cursors at matches.
+nmap s <Plug>(multicursor-mc/)
+
+" Within a selection, search for a regex pattern and add cursors with new selections at matches.
+vmap s <Plug>(multicursor-ms/)
 
 " Within a selection, add cursos on the ends of each lines.
 vmap <A-s> <Action>(EditorAddCaretPerSelectedLine)
@@ -63,7 +66,7 @@ noremap ma va
 map maa vaa
 
 " Surround add.
-map ms ys
+map my ys
 
 " Surround delete.
 map md ds
