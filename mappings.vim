@@ -12,67 +12,117 @@ nnoremap <C-u> <C-u>zz
 " Show extra info.
 let extra_info_map_fns = ['nmap', 'vmap', 'imap']
 
-call Map(extra_info_map_fns, '<C-S-k>', '<Action>(ParameterInfo)')
+" Show diagnostics float.
+call Map(extra_info_map_fns, '<C-k>', '<Action>(ShowErrorDescription)')
+call Map(extra_info_map_fns, '<A-k>', '<Action>(ParameterInfo)')
 call Map(extra_info_map_fns, '<A-S-k>', '<Action>(ExpressionTypeInfo)')
-
-"" 'z' additional mappings and descriptions.
-call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
 
 " Increase/decrease selection.
 map <A-o> <Action>(EditorSelectWord)
 map <A-i> <Action>(EditorUnSelectWord)
 
-" Select the entire file contents.
-map % vie
 
-" Add carets for word/selection under cursor one by one.
-map S <Action>(SelectNextOccurrence)
+"" 'z' mode.
+call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
 
-" Search for regex pattern within the whole file and add cursors at matches.
-nmap s <Plug>(multicursor-mc/)
+call MapWithDescription(['nmap', 'vmap'], 'za', '', 'Toggle fold')
 
-" Within a selection, search for a regex pattern and add cursors with new selections at matches.
-vmap s <Plug>(multicursor-ms/)
+call CreateWhichKeyDescription('zc', 'Collapse region')
+call CreateWhichKeyDescription('zC', 'Collapse region recursively')
+call MapWithDescription(['nmap', 'vmap'], 'zm', 'zM', 'Collapse all regions')
 
-" Within a selection, add cursos on the ends of each lines.
-vmap <A-s> <Action>(EditorAddCaretPerSelectedLine)
+call CreateWhichKeyDescription('zo', 'Expand region')
+call CreateWhichKeyDescription('zO', 'Expand region recursively')
+call MapWithDescription(['nmap', 'vmap'], 'zr', 'zR', 'Expand all regions')
+
+call CreateWhichKeyDescription('ze', 'Scroll last screen column')
+call CreateWhichKeyDescription('zs', 'Scroll first screen column')
+
+call MapWithDescription(['nmap', 'vmap'], 'zh', 'zH', 'Scroll right half width')
+call MapWithDescription(['nmap', 'vmap'], 'zl', 'zL', 'Scroll left half width')
+
+call CreateWhichKeyDescription('zt', 'Scroll first screen line')
+call CreateWhichKeyDescription('zb', 'Scroll last screen line')
+call CreateWhichKeyDescription('zz', 'Scroll middle screen line')
+
+
+"" Inside mode.
+call CreateWhichKeyDescription('i', 'Inside objects')
+
+call CreateWhichKeyDescription('i"', 'Double quotes')
+call CreateWhichKeyDescription("i'", 'Single quotes')
+call CreateWhichKeyDescription('i`', 'Back quotes')
+
+call CreateWhichKeyDescription('i(', 'Parentheses')
+call CreateWhichKeyDescription('i<', 'Angle brackets')
+call CreateWhichKeyDescription('i[', 'Square brackets')
+call CreateWhichKeyDescription('i{', 'Braces')
+
+call CreateWhichKeyDescription('ib', 'Parentheses')
+call CreateWhichKeyDescription('iB', 'Braces')
+
+call CreateWhichKeyDescription('iw', 'Word')
+call CreateWhichKeyDescription('iW', 'WORD')
+
+call CreateWhichKeyDescription('ia', 'Argument')
+call CreateWhichKeyDescription('it', 'Tag')
+
+call CreateWhichKeyDescription('ip', 'Paragraph')
+call CreateWhichKeyDescription('is', 'Sentence')
+call CreateWhichKeyDescription('ii', 'Indentation level')
+
+call CreateWhichKeyDescription('ie', 'Entire buffer')
+
+
+"" Around mode.
+call CreateWhichKeyDescription('a', 'Around objects')
+
+call CreateWhichKeyDescription('a"', 'Double quotes')
+call CreateWhichKeyDescription("a'", 'Single quotes')
+call CreateWhichKeyDescription('a`', 'Back quotes')
+
+call CreateWhichKeyDescription('a(', 'Parentheses')
+call CreateWhichKeyDescription('a<', 'Angle brackets')
+call CreateWhichKeyDescription('a[', 'Square brackets')
+call CreateWhichKeyDescription('a{', 'Braces')
+
+call CreateWhichKeyDescription('ab', 'Parentheses')
+call CreateWhichKeyDescription('aB', 'Braces')
+
+call CreateWhichKeyDescription('aw', 'Word')
+call CreateWhichKeyDescription('aW', 'WORD')
+
+call CreateWhichKeyDescription('aa', 'Argument')
+call CreateWhichKeyDescription('at', 'Tag')
+
+call CreateWhichKeyDescription('ap', 'Paragraph')
+call CreateWhichKeyDescription('as', 'Sentence')
+call CreateWhichKeyDescription('ai', 'Indentation level')
+
+call CreateWhichKeyDescription('ae', 'Entire buffer')
+
+
+"" Surround mode.
+call CreateWhichKeyDescription('ys', 'Surround add')
+call CreateWhichKeyDescription('yss', 'Surround line')
+
+call CreateWhichKeyDescription('ds', 'Surround delete')
+
+call CreateWhichKeyDescription('cs', 'Surround replace')
+
+
+"" Multicursor mode.
+call CreateWhichKeyDescription('mc', 'Multicursor add')
+call CreateWhichKeyDescription('ms', 'Multicursor select')
+
+call MapWithDescription(['map'], 'ma', '<Action>(EditorCloneCaretBelow)', 'Add cursor below')
+call MapWithDescription(['map'], 'mm', '<Action>(SelectNextOccurrence)', 'Add cursor for the next word/selection match')
+call MapWithDescription(['vmap'], 'me', '<Action>(EditorAddCaretPerSelectedLine)', 'Add cursors at the end of selected lines')
 
 
 "" Window mode.
 " Toggle tool windows.
-map <C-w>t <Action>(HideAllWindows)
-
-" Close current window.
-map <C-w>q <C-w>c
-
-" Show diagnostics float.
-map <C-w>d <Action>(ShowErrorDescription)
-
-
-"" Match mode.
-" Go to the matching character.
-noremap mm %
-
-" Select inside objects.
-noremap mi vi
-
-" Select inside argument.
-map mia via
-
-" Select around objects.
-noremap ma va
-
-" Select around argument.
-map maa vaa
-
-" Surround add.
-map my ys
-
-" Surround delete.
-map md ds
-
-" Surround replace.
-map mr cs
+map <C-w>t <Action>HideAllWindows
 
 
 "" Previous and next mappings.
@@ -80,37 +130,66 @@ call MapGroupWithDescriptions('[', 'previous', [
     \[['map'], 'd', '<Action>(GotoPreviousError)', 'Goto previous diagnostic'],
     \[['map'], 'g', '<Action>(VcsShowPrevChangeMarker)', 'Goto previous change'],
     \[['map'], 'f', '<Action>(MethodUp)', 'Goto previous function'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 'p', '{', 'Goto previous paragraph'],
     \[['nnoremap'], '<Space>', 'mzO<Esc>`z', 'Add newline above'],
     \[['vnoremap'], '<Space>', '<Esc>O<Esc>gv', 'Add newline above'],
+    \[['map'], 'h', '<Action>(HarpoonerPreviousFileAction)', 'Goto previous harpoon file'],
     \[['map'], 'q', '<Action>(PreviousOccurence)', 'Goto previous qflist item'],
     \])
 call MapGroupWithDescriptions(']', 'next', [
     \[['map'], 'd', '<Action>(GotoNextError)', 'Goto next diagnostic'],
     \[['map'], 'g', '<Action>(VcsShowNextChangeMarker)', 'Goto next change'],
     \[['map'], 'f', '<Action>(MethodDown)', 'Goto next function'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 'p', '}', 'Goto next paragraph'],
     \[['nnoremap'], '<Space>', 'mzo<Esc>`z', 'Add newline below'],
     \[['vnoremap'], '<Space>', '<Esc>O<Esc>gv', 'Add newline below'],
+    \[['map'], 'h', '<Action>(HarpoonerNextFileAction)', 'Goto next harpoon file'],
     \[['map'], 'q', '<Action>(NextOccurence)', 'Goto next qflist item'],
     \])
 
 
 "" Goto mode.
 call MapGroupWithDescriptions('g', 'goto', [
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 'e', 'G', 'Goto last line'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 'h', '0', 'Goto line start'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 'l', '$', 'Goto line end'],
-    \[['nnoremap', 'vnoremap', 'xnoremap'], 's', '^', 'Goto first non-blank in line'],
     \[['map'], 'd', '<Action>(GotoDeclaration)', 'Goto definition'],
-    \[['map'], 'y', '<Action>(GotoTypeDeclaration)', 'Goto type declaration'],
+    \[['map'], 'D', '<Action>(GotoTypeDeclaration)', 'Goto type declaration'],
     \[['map'], 'r', '<Action>(ShowUsages)', 'Goto references'],
     \[['map'], 'R', '<Action>(FindUsages)', 'Add references to qflist'],
     \[['map'], 'i', '<Action>(GotoImplementation)', 'Goto implementation'],
     \[['map'], 'I', '<Action>(GotoSuperMethod)', 'Goto super'],
-    \[['map'], 'w', '<Action>(AceWordAction)', 'Jump to a two-character label'],
-    \[['map'], '/', '<Action>(AceAction)', 'Jump to a search label'],
+    \[['map'], '1', '<Action>(HarpoonerOpenFile0)', 'Open harpoon file 1'],
+    \[['map'], '2', '<Action>(HarpoonerOpenFile1)', 'Open harpoon file 2'],
+    \[['map'], '3', '<Action>(HarpoonerOpenFile2)', 'Open harpoon file 3'],
+    \[['map'], '4', '<Action>(HarpoonerOpenFile3)', 'Open harpoon file 4'],
+    \[['map'], '5', '<Action>(HarpoonerOpenFile4)', 'Open harpoon file 5'],
+    \[['map'], '6', '<Action>(HarpoonerOpenFile5)', 'Open harpoon file 6'],
+    \[['map'], '7', '<Action>(HarpoonerOpenFile6)', 'Open harpoon file 7'],
+    \[['map'], '8', '<Action>(HarpoonerOpenFile7)', 'Open harpoon file 8'],
+    \[['map'], '9', '<Action>(HarpoonerOpenFile8)', 'Open harpoon file 9'],
+    \[['map'], '0', '<Action>(HarpoonerOpenFile9)', 'Open harpoon file 0'],
     \])
+
+call CreateWhichKeyDescription('g(', 'Jump to previous sentence end')
+call CreateWhichKeyDescription('g)', 'Jump to next sentence end')
+
+call CreateWhichKeyDescription('ge', 'Jump to preious word end')
+call CreateWhichKeyDescription('gE', 'Jump to previous WORD end')
+
+call CreateWhichKeyDescription('gn', 'Visual select forward including search match')
+call CreateWhichKeyDescription('gN', 'Visual select backward including search match')
+
+call CreateWhichKeyDescription('gt', 'Goto next previous tab')
+call CreateWhichKeyDescription('gT', 'Goto previous previous tab')
+
+call CreateWhichKeyDescription('g_', 'Last non-space character in line')
+
+call CreateWhichKeyDescription('gj', 'Jump down not line-wise')
+call CreateWhichKeyDescription('gk', 'Jump up not line-wise')
+call CreateWhichKeyDescription('gm', 'Jump to middle column')
+
+call CreateWhichKeyDescription('gq', 'Reformat code')
+
+
+call CreateWhichKeyDescription('gc', 'Comment')
+call CreateWhichKeyDescription('gcc', 'Comment line')
+call CreateWhichKeyDescription('gcu', 'Undo comment')
 
 
 "" Space mode.

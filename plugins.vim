@@ -12,7 +12,7 @@ set which-key
 let g:WhichKey_DefaultDelay = 50
 
 " Don't show the default vim actions implemented by IdeaVim.
-let g:WhichKey_ShowVimActions = 'false'
+let g:WhichKey_ShowVimActions = 'true'
 
 " Add the entire buffer text object: a-/ie (around/inside the (entire) buffer contents).
 Plug 'kana/vim-textobj-entire'
@@ -34,6 +34,9 @@ Plug 'machakann/vim-highlightedyank'
 
 " Surround text objects w/ paired characters.
 Plug 'tpope/vim-surround'
+
+" Convenient commenting.
+Plug 'tpope/vim-commentary'
 
 " Easy multiple cursors.
 set multicursor
