@@ -10,6 +10,8 @@ For the configuration to fully work, you need to have the following plugins inst
 - [Which-Key](https://plugins.jetbrains.com/plugin/15976-which-key).
 - [Harpooner](https://plugins.jetbrains.com/plugin/21796-harpooner).
 - [VimMulticursor](https://plugins.jetbrains.com/plugin/19162-ideavimmulticursor).
+- [Github Copilot](https://plugins.jetbrains.com/plugin/17718-github-copilot).
+- [LazyGit in Editor Terminal](https://plugins.jetbrains.com/plugin/24917-lazygit-in-editor-terminal).
 
 ## Mentions
 
