@@ -24,6 +24,11 @@ call Map(extra_info_map_fns, '<A-S-k>', '<Action>(ExpressionTypeInfo)')
 map <A-o> <Action>(EditorSelectWord)
 map <A-i> <Action>(EditorUnSelectWord)
 
+" Copilot completion actions.
+map <A-c> <Action>(copilot.requestCompletions)
+map <A-p> <Action>(copilot.cyclePrevInlays)
+map <A-n> <Action>(copilot.cycleNextInlays)
+
 
 "" Additional inside/around object descriptions.
 " Inside descriptions.
@@ -142,6 +147,13 @@ call MapGroupWithDescriptions('<leader>a', 'actions', [
     \[['map'], 'h', '<Action>(HierarchyGroup)', 'Show code hierarchy'],
     \[['map'], 'g', '<Action>(Generate)', 'Generate'],
     \[['map'], 'o', '<Action>(OptimizeImports)', 'Optimize imports'],
+    \])
+
+
+"" Leader copilot mode.
+call MapGroupWithDescriptions('<leader>c', 'copilot', [
+    \[['map'], 'c', '<Action>(ActivateGitHubCopilotChatToolWindow)', 'Open/focus Copilot chat'],
+    \[['map'], 'i', '<Action>(OpenInlineChatAction)', 'Open inline Copilot chat'],
     \])
 
 
