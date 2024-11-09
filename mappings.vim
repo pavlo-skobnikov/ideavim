@@ -145,7 +145,7 @@ call MapGroupWithDescriptions('<leader>a', 'actions', [
     \])
 
 
-"" Space debug mode.
+"" Leader debug mode.
 call MapGroupWithDescriptions('<leader>d', 'debug', [
     \[['map'], 'l', '<Action>(ChooseDebugConfiguration)', 'Launch debug target'],
     \[['map'], 'd', '<Action>(Debug)', 'Launch current debug target'],
