@@ -192,6 +192,10 @@ call MapGroupWithDescriptions('<leader>f', 'files', [
 "" Leader git mode.
 call MapGroupWithDescriptions('<leader>g', 'git', [
     \[['map'], 'g', '<Action>(CheckinProject)', 'Commit changes'],
+    \[['map'], 't', '<Action>(LazyGit.Open)', 'Open lazygit'],
+    \[['map'], 'o', '<Action>(Github.Open.In.Browser)', 'Open change on Github'],
+    \[['map'], 'C', '<Action>(Github.Create.Pull.Request)', 'Create a PR on Github'],
+    \[['map'], 't', '<Action>(LazyGit.Open)', 'Open lazygit'],
     \[['map'], 'f', '<Action>(Git.Fetch)', 'Fetch'],
     \[['map'], 'p', '<Action>(Vcs.UpdateProject)', 'Pull'],
     \[['map'], 'P', '<Action>(Vcs.Push)', 'Push'],
