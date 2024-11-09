@@ -12,7 +12,7 @@ set which-key
 let g:WhichKey_DefaultDelay = 50
 
 " Don't show the default vim actions implemented by IdeaVim.
-let g:WhichKey_ShowVimActions = 'true'
+let g:WhichKey_ShowVimActions = 'false'
 
 " Add the entire buffer text object: a-/ie (around/inside the (entire) buffer contents).
 Plug 'kana/vim-textobj-entire'
