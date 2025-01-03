@@ -4,9 +4,54 @@
 " with `""`.
 
 
-" Source the basic Vim configurations that are shared between Ideavim and
-" other Vim derivatives.
-source ~/.vimrc
+"" Temporary section.
+" Set leader keys.
+" NOTE: Should be set early on in the configuration.
+let mapleader = " "
+let maplocalleader = "\\"
+
+"" Basic settings section.
+
+" Enable relative line numbers.
+set number
+set relativenumber
+
+" Show which line your cursor is on.
+set cursorline
+
+" Minimal number of screen lines to keep above and below the cursor.
+set scrolloff=10
+
+" Never timeout when waiting for the next key of a keymap.
+set notimeout
+
+" Remember command-line history.
+set history=1000
+
+" Case-insensitive searching unless upper case letters are present in the search term.
+set ignorecase
+set smartcase
+
+" Search as characters are entered.
+set incsearch
+
+" Highlight search results.
+set hlsearch
+
+" Wrap around the buffer when searching.
+set wrapscan
+
+" Enable keeping the indent when breaking lines.
+set breakindent
+
+"" Basic remaps section.
+
+" Remove highlights on Escape.
+nnoremap <silent> <ESC> :nohlsearch<CR><ESC>
+
+" Center screen on page movement.
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
 
 
 """ Configuration section.
@@ -293,6 +338,7 @@ call MapGroupWithDescriptions('<leader>', 'space', [
     \[['map'], '/', '<Action>(FindInPath)', 'Global search in workspace folder'],
     \[['map'], '?', '<Action>(GotoAction)', 'Open command palette'],
     \[['map'], '<leader>', '<Action>(SearchEverywhere)', 'Search everywhere'],
+    \[['map'], 'R', ':source ~/.ideavimrc<CR>', 'Reload .ideavimrc'],
     \])
 
 "" Leader actions mode.
