@@ -78,10 +78,6 @@ let g:argtextobj_pairs = '(:),{:},[:],<:>'
 " REFERENCE: https://github.com/dbakker/vim-paragraph-motion#vim-paragraph-motion
 set vim-paragraph-motion
 
-"" Peek `"` registers.
-" REFERENCE: https://plugins.jetbrains.com/plugin/25776-vim-peekaboo
-set peekaboo
-
 "" Show unique line characters for easy in-line jumps.
 " REFERENCE: https://plugins.jetbrains.com/plugin/19417-ideavim-quickscope
 set quickscope
@@ -214,30 +210,33 @@ call CreateWhichKeyDescription('cxc', 'Clear exchange stack')
 map - <Action>(SelectInProjectView)
 map _ <Action>(ActivateProjectToolWindow)
 
-" Show diagnostics and extra information.
-let extra_info_map_fns = ['nmap', 'vmap', 'imap']
+" Invoke completions.
+map <C-x><C-x> <Action>(CodeCompletion)
+map <C-x><C-t> <Action>(SmartTypeCompletion)
+map <C-x><C-s> <Action>(EditorCompleteStatement)
 
-call Map(extra_info_map_fns, '<C-h>', '<Action>(ParameterInfo)')
-call Map(extra_info_map_fns, '<C-j>', '<Action>(ExpressionTypeInfo)')
-call Map(extra_info_map_fns, '<C-k>', '<Action>(ShowErrorDescription)')
+" Accept completion and move to the next placeholder.
+
+" Show diagnostics and extra information.
+map <C-h> <Action>(ParameterInfo)
+map <C-j> <Action>(ExpressionTypeInfo)
+map <C-k> <Action>(ShowErrorDescription)
+
+" Add references to qflist
+map <C-q> <Action>(FindUsages)
 
 " Cycle `switch.vim`-defined value groups.
-nmap <C-s> <Action>(Switch)
+map <C-s> <Action>(Switch)
 
 " Copilot completion actions.
-map <C-x>c <Action>(copilot.requestCompletions)
+map <C-x><C-c> <Action>(copilot.requestCompletions)
 map <C-S-p> <Action>(copilot.cyclePrevInlays)
 map <C-S-n> <Action>(copilot.cycleNextInlays)
-
-"" <C-w> prefix.
 
 " Toggle tool windows.
 map <C-w>t <Action>(HideAllWindows)
 
-"" 'z' prefix.
-
 call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
-
 
 "" Previous ('[') and next (']') mappings.
 
@@ -260,9 +259,7 @@ call MapGroupWithDescriptions(']', 'next', [
     \[['map'], 'q', '<Action>(NextOccurence)', 'Goto next qflist item'],
     \])
 
-
 "" Goto ('g') mappings.
-"    \[['map'], 'R', '<Action>(FindUsages)', 'Add references to qflist'],
 
 call MapGroupWithDescriptions('g', 'goto', [
     \[['map'], 'd', '<Action>(GotoDeclaration)', 'Goto definition'],
@@ -284,8 +281,8 @@ call MapGroupWithDescriptions('g', 'goto', [
     \[['map'], '0', '<Action>(HarpoonerOpenFile9)', 'Open harpoon file 0'],
     \])
 
-
 "" Leader mode.
+
 call MapGroupWithDescriptions('<leader>', 'space', [
     \[['map'], 'h', '<Action>(HarpoonerQuickMenu)', 'Open harpoon menu'],
     \[['map'], 'm', '<Action>(ShowBookmarks)', 'Open bookmarks picker'],
@@ -294,12 +291,12 @@ call MapGroupWithDescriptions('<leader>', 'space', [
     \[['map'], 'e', '<Action>(ActivateProblemsViewToolWindow)', 'Open errors tool window'],
     \[['map'], 'w', '<Action>(Switcher)', 'Open tool window and buffer switcher'],
     \[['map'], '/', '<Action>(FindInPath)', 'Global search in workspace folder'],
-    \[['map'], '.', '<Action>(GotoAction)', 'Open command palette'],
-    \[['map'], ",", '<Action>(SearchEverywhere)', 'Search everywhere'],
+    \[['map'], '?', '<Action>(GotoAction)', 'Open command palette'],
+    \[['map'], '<leader>', '<Action>(SearchEverywhere)', 'Search everywhere'],
     \])
 
-
 "" Leader actions mode.
+
 call MapGroupWithDescriptions('<leader>a', 'actions', [
     \[['map'], 'a', '<Action>(ShowIntentionActions)', 'Perform intention action'],
     \[['map'], 'c', '<Action>(Refactorings.QuickListPopupAction)', 'Perform contextual refactor action'],
@@ -311,15 +308,15 @@ call MapGroupWithDescriptions('<leader>a', 'actions', [
     \[['map'], 'o', '<Action>(OptimizeImports)', 'Optimize imports'],
     \])
 
-
 "" Leader copilot mode.
+
 call MapGroupWithDescriptions('<leader>c', 'copilot', [
     \[['map'], 'c', '<Action>(ActivateGitHubCopilotChatToolWindow)', 'Open/focus Copilot chat'],
     \[['map'], 'i', '<Action>(OpenInlineChatAction)', 'Open inline Copilot chat'],
     \])
 
-
 "" Leader debug mode.
+
 call MapGroupWithDescriptions('<leader>d', 'debug', [
     \[['map'], 'l', '<Action>(ChooseDebugConfiguration)', 'Launch debug target'],
     \[['map'], 'd', '<Action>(Debug)', 'Launch current debug target'],
@@ -337,57 +334,45 @@ call MapGroupWithDescriptions('<leader>d', 'debug', [
     \[['map'], 'f', '<Action>(ViewBreakpoints)', 'Search breakpoints'],
     \])
 
-
 "" Leader files mode.
+
 call MapGroupWithDescriptions('<leader>f', 'files', [
     \[['map'], 'f', '<Action>(GotoFile)', 'Open file picker'],
     \[['map'], 'r', '<Action>(RecentFiles)', 'Open recently opened files picker'],
     \[['map'], 'c', '<Action>(RecentChangedFiles)', 'Open recently changed files picker'],
     \[['map'], 'n', '<Action>(NewElement)', 'Create new file'],
-    \[['map'], 's', '<Action>(SynchronizeCurrentFile)', 'Synchronize current file from disk'],
-    \[['map'], 'S', '<Action>(Synchronize)', 'Synchronize all files from disk'],
     \[['map'], 'y', '<Action>(CopyReferencePopup)', 'Yank filename'],
-    \[['map'], 'o', '<Action>(RevealIn)', 'Open current file in finder'],
+    \[['map'], 'o', '<Action>(RevealIn)', 'Open current file in Finder'],
     \])
-
 
 "" Leader git mode.
+
 call MapGroupWithDescriptions('<leader>g', 'git', [
+    \[['map'], 'a', '<Action>(Git.Menu)', 'Actions menu'],
     \[['map'], 'g', '<Action>(CheckinProject)', 'Commit changes'],
-    \[['map'], 't', '<Action>(LazyGit.Open)', 'Open lazygit'],
-    \[['map'], 'o', '<Action>(Github.Open.In.Browser)', 'Open change on Github'],
-    \[['map'], 'C', '<Action>(Github.Create.Pull.Request)', 'Create a PR on Github'],
-    \[['map'], 't', '<Action>(LazyGit.Open)', 'Open lazygit'],
-    \[['map'], 'f', '<Action>(Git.Fetch)', 'Fetch'],
+    \[['map'], 'G', '<Action>(Github.Create.Pull.Request)', 'Create a PR on Github'],
+    \[['map'], 'r', '<Action>(Vcs.RollbackChangedLines)', 'Reset hunk'],
     \[['map'], 'p', '<Action>(Vcs.UpdateProject)', 'Pull'],
     \[['map'], 'P', '<Action>(Vcs.Push)', 'Push'],
-    \[['map'], 'l', '<Action>(Vcs.Show.Log)', 'Log'],
-    \[['map'], 's', '<Action>(Vcs.Show.Shelf)', 'Shelf'],
-    \[['map'], 'H', '<Action>(Vcs.ShowTabbedFileHistory)', 'File history'],
-    \[['map'], 'b', '<Action>(Annotate)', 'Blame'],
     \[['map'], 'c', '<Action>(Git.Branches)', 'Checkout branches'],
-    \[['map'], 'a', '<Action>(Git.Menu)', 'Actions menu'],
+    \[['map'], 's', '<Action>(Vcs.Show.Shelf)', 'Shelf'],
+    \[['map'], 'l', '<Action>(Vcs.Show.Log)', 'Log'],
+    \[['map'], 'o', '<Action>(Github.Open.In.Browser)', 'Open change on Github'],
+    \[['map'], 'h', '<Action>(Vcs.ShowTabbedFileHistory)', 'File history'],
+    \[['map'], 'b', '<Action>(Annotate)', 'Blame'],
     \])
-
-
-"" Leader git hunks mode.
-call MapGroupWithDescriptions('<leader>gh', 'hunks', [
-    \[['map'], 'r', '<Action>(Vcs.RollbackChangedLines)', 'Reset hunk'],
-    \[['map'], 'b', '<Action>(Git.Add)', 'Stage buffer'],
-    \])
-
 
 "" Leader project mode.
+
 call MapGroupWithDescriptions('<leader>p', 'project', [
     \[['map'], 'p', '<Action>(ManageRecentProjects)', 'Switch projects'],
     \[['map'], 't', '<Action>(ActivateTODOToolWindow)', 'Show TODOs'],
-    \[['map'], 'w', '<Action>(EditSourceInNewWindow)', 'New buffer window'],
     \[['map'], 'm', '<Action>(Maven.ExecuteGoal)', 'Execute Maven goal'],
     \[['map'], 'g', '<Action>(Gradle.ExecuteTask)', 'Execute Gradle task'],
     \])
 
-
 "" Leader run mode.
+
 call MapGroupWithDescriptions('<leader>r', 'run', [
     \[['map'], 'r', '<Action>(Run)', 'Launch current run target'],
     \[['map'], 'l', '<Action>(RunAnything)', 'Launch run target'],
@@ -398,8 +383,8 @@ call MapGroupWithDescriptions('<leader>r', 'run', [
     \[['map'], 't', '<Action>(Stop)', 'End run session'],
     \])
 
-
 "" Leader symbols mode.
+
 call MapGroupWithDescriptions('<leader>s', 'symbols', [
     \[['map'], 'f', '<Action>(FileStructurePopup)', 'Open symbol picker'],
     \[['map'], 'w', '<Action>(GotoSymbol)', 'Open workspace symbol picker'],
@@ -408,8 +393,8 @@ call MapGroupWithDescriptions('<leader>s', 'symbols', [
     \[['map'], 'y', '<Action>(CopyReference)', 'Yank reference'],
     \])
 
-
 "" Leader terminal mode.
+
 call MapGroupWithDescriptions('<leader>t', 'terminal', [
     \[['map'], 't', '<Action>(ActivateTerminalToolWindow)', 'Open terminal'],
     \[['map'], 'c', '<Action>(Terminal.OpenInTerminal)', 'Open terminal at current file directory'],
