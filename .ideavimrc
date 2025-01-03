@@ -190,14 +190,23 @@ call CreateWhichKeyDescription('yss', 'Surround line')
 call CreateWhichKeyGroupDescription('ds', 'surround-delete')
 call CreateWhichKeyGroupDescription('cs', 'surround-replace')
 
+" `matchit` plugin descriptions.
+call CreateWhichKeyGroupDescription('g%', 'Reverse matching element jump')
+
 " `commentary` plugin descriptions.
-call CreateWhichKeyDescription('gc', 'Comment')
+call CreateWhichKeyDescription('gc', '+comment')
 call CreateWhichKeyDescription('gcc', 'Comment line')
 call CreateWhichKeyDescription('gcu', 'Undo comment')
 
-" `ReplaceWithRegister`
-call CreateWhichKeyDescription('gr', 'Replace')
+" `ReplaceWithRegister` plugin descriptions.
+call CreateWhichKeyDescription('gr', '+replace')
 call CreateWhichKeyDescription('grr', 'Replace line')
+
+" `Exchange` plugin descriptions.
+call CreateWhichKeyDescription('cx', '+exchange')
+call CreateWhichKeyDescription('cxx', 'Exchange line')
+call CreateWhichKeyDescription('cxc', 'Clear exchange stack')
+
 
 "" Basic mappings.
 
