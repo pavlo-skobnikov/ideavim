@@ -8,8 +8,13 @@ For the configuration to fully work, you need to have the following plugins inst
 
 - [IdeaVim](https://plugins.jetbrains.com/plugin/164-ideavim) (duh!).
 - [Which-Key](https://plugins.jetbrains.com/plugin/15976-which-key).
+- [Vim FunctionTextObj](https://plugins.jetbrains.com/plugin/25897-vim-functiontextobj).
+- [Vim Peekaboo](https://plugins.jetbrains.com/plugin/25776-vim-peekaboo).
+- [IdeaVim-Quickscope](https://plugins.jetbrains.com/plugin/19417-ideavim-quickscope)
+- [Vim Switch](https://plugins.jetbrains.com/plugin/25899-vim-switch).
+
+
 - [Harpooner](https://plugins.jetbrains.com/plugin/21796-harpooner).
-- [VimMulticursor](https://plugins.jetbrains.com/plugin/19162-ideavimmulticursor).
 - [Github Copilot](https://plugins.jetbrains.com/plugin/17718-github-copilot).
 - [LazyGit in Editor Terminal](https://plugins.jetbrains.com/plugin/24917-lazygit-in-editor-terminal).
 

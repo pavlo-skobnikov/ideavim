@@ -1,13 +1,407 @@
 " -> https://github.com/JetBrains/ideavim/wiki
+" NOTE: Each section of the configuration file is designated with `"""`
+" leading comment characters, the corresponding sub-sections are designated
+" with `""`.
 
-" Source the utility functions.
-source ~/dotfiles/ideavim/utility.vim
 
-" Basic configurations.
-source ~/dotfiles/ideavim/settings.vim
+" Source the basic Vim configurations that are shared between Ideavim and
+" other Vim derivatives.
+source ~/.vimrc
 
-" Plugins.
-source ~/dotfiles/ideavim/plugins.vim
 
-" Mappings.
-source ~/dotfiles/ideavim/mappings.vim
+""" Configuration section.
+" REFERENCE: https://github.com/JetBrains/ideavim/wiki/set-commands#ideavim-options-for-intellij-based-ide-features
+
+" Use the IntelliJ's `smart join` feature for `J` motion.
+set ideajoin=true
+
+" Switch to the visual mode after selecting a refactor action.
+set idearefactormode=keep
+
+
+""" Plugins section.
+" REFERENCE: https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins
+
+"" Show the actions of a keymap.
+set which-key
+
+" Show the actions pop-up after 50ms.
+let g:WhichKey_DefaultDelay = 50
+
+" Don't show the default vim actions implemented by IdeaVim.
+let g:WhichKey_ShowVimActions = 'false'
+
+"" Navigate file tree w/ vim keys.
+" REFERENCE: https://github.com/JetBrains/ideavim/wiki/NERDTree-support
+set NERDTree
+
+"" Paired characters operations.
+" REFERENCE: https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
+set surround
+
+"" Extended `%` operator pair groups.
+" REFERENCE: https://github.com/adelarsq/vim-matchit/blob/master/doc/matchit.txt
+set matchit
+
+"" Quick access commenting.
+" REFERENCE: https://github.com/tpope/vim-commentary/blob/master/doc/commentary.txt
+set commentary
+
+"" Replace text without replacing the unnamed register.
+" REFERENCE: https://github.com/vim-scripts/ReplaceWithRegister/blob/master/doc/ReplaceWithRegister.txt
+set ReplaceWithRegister
+
+"" Exchange text w/ less motions.
+" REFERENCE: https://github.com/tommcdo/vim-exchange/blob/master/doc/exchange.txt
+set exchange
+
+"" The entire buffer as a text object: a-/ie (around/inside the (entire) buffer contents).
+" REFERENCE: https://github.com/kana/vim-textobj-entire/blob/master/doc/textobj-entire.txt
+set textobj-entire
+
+"" Indentation levels as text objects: a-/ii (around/inside indentation level).
+" REFERENCE: https://github.com/michaeljsmith/vim-indent-object/blob/master/doc/indent-object.txt
+set textobj-indent
+
+"" Functions as text objects: a-/if (around/inside function).
+" REFERENCE: https://plugins.jetbrains.com/plugin/25897-vim-functiontextobj
+set functiontextobj
+
+"" Text objects for arguments and parameters.
+" REFERENCE: https://www.vim.org/scripts/script.php?script_id=2699
+set argtextobj
+
+" Handle more arguments than just simple parentheses.
+let g:argtextobj_pairs = '(:),{:},[:],<:>'
+
+"" Improvements to `{` and `}` motions to include blank lines as well.
+" REFERENCE: https://github.com/dbakker/vim-paragraph-motion#vim-paragraph-motion
+set vim-paragraph-motion
+
+"" Peek `"` registers.
+" REFERENCE: https://plugins.jetbrains.com/plugin/25776-vim-peekaboo
+set peekaboo
+
+"" Show unique line characters for easy in-line jumps.
+" REFERENCE: https://plugins.jetbrains.com/plugin/19417-ideavim-quickscope
+set quickscope
+
+"" Highlight yanked text w/o having to use visual mode.
+" REFERENCE: https://github.com/machakann/vim-highlightedyank/blob/master/doc/highlightedyank.txt
+set highlightedyank
+
+"" Cycle through context-aware options.
+" REFERENCE: https://plugins.jetbrains.com/plugin/25899-vim-switch
+set switch
+
+" Enable patterns.
+let g:switch_definitions = 'group:basic,group:java,group:javascript,group:scala'
+
+
+""" Mappings section.
+
+"" Utility mapping functions.
+
+" FUNCTION DESCRIPTION: Maps same keymap (`mapping`) for multiple mapping
+" operators (i.e. `map`, `nmap`, `nnoremap`, etc.) to an action, which is
+" either another Vim key-stroke sequence or the IdeaVim-specific "action" (i.e.
+" <Action>(INTELLIJ_IDEA_ACTION)).
+function! Map(mapping_functions, key_sequence, action)
+    " As `a:mapping_functions` is a list of mapping operators, we need to iterate
+    " over all of them and apply the mapping.
+    for mapping_fn in a:mapping_functions
+        " Construct a Vimscript statement dynamically and run it w/ `exec`
+        exec mapping_fn . " " . a:key_sequence . " " . a:action
+    endfor
+endfunction
+
+" A simple counter to use in conjunction with the `CreateWhichKeyDescription`
+" function. It's purpose is for the variable's value to be used in the dynamic
+" variable creation, specifically, to generate a unique name. Why?
+" `which-key` plugin requires a unique name per description.
+let g:WhichKeyDesc_VariableNameCounter = 0
+
+" FUNCTION DESCRIPTION: Generates a unique variable name and assigns a
+" concatenation of `key_sequence` and `description` as it's value. The
+" generated variable name starts w/ "WhichKeyDesc_", which is then picked
+" up by the `which-key` plugin to create a dynamic keymap-popup window.
+function! CreateWhichKeyDescription(key_sequence, description)
+    " Increment the counter by 1.
+    let g:WhichKeyDesc_VariableNameCounter += 1
+    " Use the counter number to create a unique variable name for `which-key`.
+    let variable_name = "WhichKeyDesc_GeneratedName_" . g:WhichKeyDesc_VariableNameCounter
+
+    let mapping_with_description = a:key_sequence . " " . a:description
+
+    exec "let g:" . variable_name . " = '" . mapping_with_description . "'"
+endfunction
+
+" FUNCTION DESCRIPTION: Combines the calls to `Map` and
+" `CreateWhichKeyDescription` into one function.
+function! MapWithDescription(mapping_functions, key_sequence, action, description)
+    call Map(a:mapping_functions, a:key_sequence, a:action)
+    call CreateWhichKeyDescription(a:key_sequence, a:description)
+endfunction
+
+" FUNCTION DESCRIPTION: Generates a unique variable name and assigns a the
+" given `group_name` as it's value prefixed with a '+' sign, which is a
+" which-key plugin convention for grouping keymaps.
+function! CreateWhichKeyGroupDescription(group_key_leader, group_name)
+    let group_description = '+' . a:group_name
+
+    call CreateWhichKeyDescription(a:group_key_leader, group_description)
+endfunction
+
+" FUNCTION DESCRIPTION: Allows to set a "group", which is a collection of
+" mappings under a single keychord prefix.
+"   - `group_key_leader` is a part of the common `key_sequence` for all
+"     mappings in the group.
+"   - `group_name` is the name of the group.
+"   - `mapping_arguments_list` is a list of lists. The nested lists are 
+" arguments for the function `MapWithDescription`
+function! MapGroupWithDescriptions(group_key_leader, group_name, mapping_arguments_list)
+    call CreateWhichKeyGroupDescription(a:group_key_leader, a:group_name)
+
+    for mapping_arguments in a:mapping_arguments_list
+        let mapping = a:group_key_leader . mapping_arguments[1]
+
+        call MapWithDescription(mapping_arguments[0], mapping, mapping_arguments[2], mapping_arguments[3])
+    endfor
+endfunction
+
+"" Extra descriptions.
+
+" Additional inside/around text object descriptions.
+call CreateWhichKeyGroupDescription('i', 'inside-objects')
+call CreateWhichKeyDescription('ie', 'Entire buffer')
+call CreateWhichKeyDescription('ii', 'Indentation level')
+call CreateWhichKeyDescription('if', 'Function')
+call CreateWhichKeyDescription('ia', 'Argument')
+
+call CreateWhichKeyGroupDescription('a', 'around-objects')
+call CreateWhichKeyDescription('ae', 'Entire buffer')
+call CreateWhichKeyDescription('ai', 'Indentation level')
+call CreateWhichKeyDescription('af', 'Function')
+call CreateWhichKeyDescription('aa', 'Argument')
+
+" `surround` plugin descriptions.
+call CreateWhichKeyGroupDescription('ys', 'surround-add')
+call CreateWhichKeyDescription('yss', 'Surround line')
+call CreateWhichKeyGroupDescription('ds', 'surround-delete')
+call CreateWhichKeyGroupDescription('cs', 'surround-replace')
+
+" `commentary` plugin descriptions.
+call CreateWhichKeyDescription('gc', 'Comment')
+call CreateWhichKeyDescription('gcc', 'Comment line')
+call CreateWhichKeyDescription('gcu', 'Undo comment')
+
+" `ReplaceWithRegister`
+call CreateWhichKeyDescription('gr', 'Replace')
+call CreateWhichKeyDescription('grr', 'Replace line')
+
+"" Basic mappings.
+
+" Open file explorer in current file's directory/at project root.
+map - <Action>(SelectInProjectView)
+map _ <Action>(ActivateProjectToolWindow)
+
+" Show diagnostics and extra information.
+let extra_info_map_fns = ['nmap', 'vmap', 'imap']
+
+call Map(extra_info_map_fns, '<C-h>', '<Action>(ParameterInfo)')
+call Map(extra_info_map_fns, '<C-j>', '<Action>(ExpressionTypeInfo)')
+call Map(extra_info_map_fns, '<C-k>', '<Action>(ShowErrorDescription)')
+
+" Cycle `switch.vim`-defined value groups.
+nmap <C-s> <Action>(Switch)
+
+" Copilot completion actions.
+map <C-x>c <Action>(copilot.requestCompletions)
+map <C-S-p> <Action>(copilot.cyclePrevInlays)
+map <C-S-n> <Action>(copilot.cycleNextInlays)
+
+"" <C-w> prefix.
+
+" Toggle tool windows.
+map <C-w>t <Action>(HideAllWindows)
+
+"" 'z' prefix.
+
+call MapWithDescription(['nmap'], 'za', '<Action>(ExpandCollapseToggleAction)', 'Toggle fold')
+
+
+"" Previous ('[') and next (']') mappings.
+
+call MapGroupWithDescriptions('[', 'previous', [
+    \[['map'], 'd', '<Action>(GotoPreviousError)', 'Goto previous diagnostic'],
+    \[['map'], 'g', '<Action>(VcsShowPrevChangeMarker)', 'Goto previous change'],
+    \[['map'], 'f', '<Action>(MethodUp)', 'Goto previous function'],
+    \[['nnoremap'], '<Space>', 'mzO<Esc>`z', 'Add newline above'],
+    \[['vnoremap'], '<Space>', '<Esc>O<Esc>gv', 'Add newline above'],
+    \[['map'], 'h', '<Action>(HarpoonerPreviousFileAction)', 'Goto previous harpoon file'],
+    \[['map'], 'q', '<Action>(PreviousOccurence)', 'Goto previous qflist item'],
+    \])
+call MapGroupWithDescriptions(']', 'next', [
+    \[['map'], 'd', '<Action>(GotoNextError)', 'Goto next diagnostic'],
+    \[['map'], 'g', '<Action>(VcsShowNextChangeMarker)', 'Goto next change'],
+    \[['map'], 'f', '<Action>(MethodDown)', 'Goto next function'],
+    \[['nnoremap'], '<Space>', 'mzo<Esc>`z', 'Add newline below'],
+    \[['vnoremap'], '<Space>', '<Esc>O<Esc>gv', 'Add newline below'],
+    \[['map'], 'h', '<Action>(HarpoonerNextFileAction)', 'Goto next harpoon file'],
+    \[['map'], 'q', '<Action>(NextOccurence)', 'Goto next qflist item'],
+    \])
+
+
+"" Goto ('g') mappings.
+"    \[['map'], 'R', '<Action>(FindUsages)', 'Add references to qflist'],
+
+call MapGroupWithDescriptions('g', 'goto', [
+    \[['map'], 'd', '<Action>(GotoDeclaration)', 'Goto definition'],
+    \[['map'], 'D', '<Action>(GotoTypeDeclaration)', 'Goto type declaration'],
+    \[['map'], 'R', '<Action>(ShowUsages)', 'Goto references'],
+    \[['map'], 'i', '<Action>(GotoImplementation)', 'Goto implementation'],
+    \[['map'], 'I', '<Action>(GotoSuperMethod)', 'Goto super'],
+    \[['nmap', 'vmap'], 's', '<Action>(EditorSelectWord)', 'Increase selection'],
+    \[['nmap', 'vmap'], 'S', '<Action>(EditorUnSelectWord)', 'Decrease selection'],
+    \[['map'], '1', '<Action>(HarpoonerOpenFile0)', 'Open harpoon file 1'],
+    \[['map'], '2', '<Action>(HarpoonerOpenFile1)', 'Open harpoon file 2'],
+    \[['map'], '3', '<Action>(HarpoonerOpenFile2)', 'Open harpoon file 3'],
+    \[['map'], '4', '<Action>(HarpoonerOpenFile3)', 'Open harpoon file 4'],
+    \[['map'], '5', '<Action>(HarpoonerOpenFile4)', 'Open harpoon file 5'],
+    \[['map'], '6', '<Action>(HarpoonerOpenFile5)', 'Open harpoon file 6'],
+    \[['map'], '7', '<Action>(HarpoonerOpenFile6)', 'Open harpoon file 7'],
+    \[['map'], '8', '<Action>(HarpoonerOpenFile7)', 'Open harpoon file 8'],
+    \[['map'], '9', '<Action>(HarpoonerOpenFile8)', 'Open harpoon file 9'],
+    \[['map'], '0', '<Action>(HarpoonerOpenFile9)', 'Open harpoon file 0'],
+    \])
+
+
+"" Leader mode.
+call MapGroupWithDescriptions('<leader>', 'space', [
+    \[['map'], 'h', '<Action>(HarpoonerQuickMenu)', 'Open harpoon menu'],
+    \[['map'], 'm', '<Action>(ShowBookmarks)', 'Open bookmarks picker'],
+    \[['map'], 'j', '<Action>(RecentLocations)', 'Open recent locations picker'],
+    \[['map'], 'q', '<Action>(ActivateFindToolWindow)', 'Open qflist tool window'],
+    \[['map'], 'e', '<Action>(ActivateProblemsViewToolWindow)', 'Open errors tool window'],
+    \[['map'], 'w', '<Action>(Switcher)', 'Open tool window and buffer switcher'],
+    \[['map'], '/', '<Action>(FindInPath)', 'Global search in workspace folder'],
+    \[['map'], '.', '<Action>(GotoAction)', 'Open command palette'],
+    \[['map'], ",", '<Action>(SearchEverywhere)', 'Search everywhere'],
+    \])
+
+
+"" Leader actions mode.
+call MapGroupWithDescriptions('<leader>a', 'actions', [
+    \[['map'], 'a', '<Action>(ShowIntentionActions)', 'Perform intention action'],
+    \[['map'], 'c', '<Action>(Refactorings.QuickListPopupAction)', 'Perform contextual refactor action'],
+    \[['map'], 'r', '<Action>(RenameElement)', 'Rename symbol'],
+    \[['map'], 'm', '<Action>(RefactoringMenu)', 'Open refactor menu'],
+    \[['map'], 't', '<Action>(GotoTest)', 'Switch between tests and implementation'],
+    \[['map'], 'h', '<Action>(HierarchyGroup)', 'Show code hierarchy'],
+    \[['map'], 'g', '<Action>(Generate)', 'Generate'],
+    \[['map'], 'o', '<Action>(OptimizeImports)', 'Optimize imports'],
+    \])
+
+
+"" Leader copilot mode.
+call MapGroupWithDescriptions('<leader>c', 'copilot', [
+    \[['map'], 'c', '<Action>(ActivateGitHubCopilotChatToolWindow)', 'Open/focus Copilot chat'],
+    \[['map'], 'i', '<Action>(OpenInlineChatAction)', 'Open inline Copilot chat'],
+    \])
+
+
+"" Leader debug mode.
+call MapGroupWithDescriptions('<leader>d', 'debug', [
+    \[['map'], 'l', '<Action>(ChooseDebugConfiguration)', 'Launch debug target'],
+    \[['map'], 'd', '<Action>(Debug)', 'Launch current debug target'],
+    \[['map'], 'b', '<Action>(ToggleLineBreakpoint)', 'Toggle breakpoint'],
+    \[['map'], 'c', '<Action>(Resume)', 'Continue program execution'],
+    \[['map'], 'h', '<Action>(Pause)', 'Pause program execution'],
+    \[['map'], 'i', '<Action>(StepInto)', 'Step in'],
+    \[['map'], 'o', '<Action>(StepOut)', 'Step out'],
+    \[['map'], 'n', '<Action>(StepOver)', 'Step to next'],
+    \[['map'], 'r', '<Action>(RunToCursor)', 'Run to cursor'],
+    \[['map'], 't', '<Action>(Stop)', 'End debug session'],
+    \[['map'], 'F', '<Action>(ToggleFieldBreakpoint)', 'Add field breakpoint'],
+    \[['map'], 'M', '<Action>(ToggleMethodBreakpoint)', 'Add method breakpoint'],
+    \[['map'], 'C', '<Action>(AddConditionalBreakpoint)', 'Add conditional breakpoint'],
+    \[['map'], 'f', '<Action>(ViewBreakpoints)', 'Search breakpoints'],
+    \])
+
+
+"" Leader files mode.
+call MapGroupWithDescriptions('<leader>f', 'files', [
+    \[['map'], 'f', '<Action>(GotoFile)', 'Open file picker'],
+    \[['map'], 'r', '<Action>(RecentFiles)', 'Open recently opened files picker'],
+    \[['map'], 'c', '<Action>(RecentChangedFiles)', 'Open recently changed files picker'],
+    \[['map'], 'n', '<Action>(NewElement)', 'Create new file'],
+    \[['map'], 's', '<Action>(SynchronizeCurrentFile)', 'Synchronize current file from disk'],
+    \[['map'], 'S', '<Action>(Synchronize)', 'Synchronize all files from disk'],
+    \[['map'], 'y', '<Action>(CopyReferencePopup)', 'Yank filename'],
+    \[['map'], 'o', '<Action>(RevealIn)', 'Open current file in finder'],
+    \])
+
+
+"" Leader git mode.
+call MapGroupWithDescriptions('<leader>g', 'git', [
+    \[['map'], 'g', '<Action>(CheckinProject)', 'Commit changes'],
+    \[['map'], 't', '<Action>(LazyGit.Open)', 'Open lazygit'],
+    \[['map'], 'o', '<Action>(Github.Open.In.Browser)', 'Open change on Github'],
+    \[['map'], 'C', '<Action>(Github.Create.Pull.Request)', 'Create a PR on Github'],
+    \[['map'], 't', '<Action>(LazyGit.Open)', 'Open lazygit'],
+    \[['map'], 'f', '<Action>(Git.Fetch)', 'Fetch'],
+    \[['map'], 'p', '<Action>(Vcs.UpdateProject)', 'Pull'],
+    \[['map'], 'P', '<Action>(Vcs.Push)', 'Push'],
+    \[['map'], 'l', '<Action>(Vcs.Show.Log)', 'Log'],
+    \[['map'], 's', '<Action>(Vcs.Show.Shelf)', 'Shelf'],
+    \[['map'], 'H', '<Action>(Vcs.ShowTabbedFileHistory)', 'File history'],
+    \[['map'], 'b', '<Action>(Annotate)', 'Blame'],
+    \[['map'], 'c', '<Action>(Git.Branches)', 'Checkout branches'],
+    \[['map'], 'a', '<Action>(Git.Menu)', 'Actions menu'],
+    \])
+
+
+"" Leader git hunks mode.
+call MapGroupWithDescriptions('<leader>gh', 'hunks', [
+    \[['map'], 'r', '<Action>(Vcs.RollbackChangedLines)', 'Reset hunk'],
+    \[['map'], 'b', '<Action>(Git.Add)', 'Stage buffer'],
+    \])
+
+
+"" Leader project mode.
+call MapGroupWithDescriptions('<leader>p', 'project', [
+    \[['map'], 'p', '<Action>(ManageRecentProjects)', 'Switch projects'],
+    \[['map'], 't', '<Action>(ActivateTODOToolWindow)', 'Show TODOs'],
+    \[['map'], 'w', '<Action>(EditSourceInNewWindow)', 'New buffer window'],
+    \[['map'], 'm', '<Action>(Maven.ExecuteGoal)', 'Execute Maven goal'],
+    \[['map'], 'g', '<Action>(Gradle.ExecuteTask)', 'Execute Gradle task'],
+    \])
+
+
+"" Leader run mode.
+call MapGroupWithDescriptions('<leader>r', 'run', [
+    \[['map'], 'r', '<Action>(Run)', 'Launch current run target'],
+    \[['map'], 'l', '<Action>(RunAnything)', 'Launch run target'],
+    \[['map'], 'p', '<Action>(Rerun)', 'Launch previous run target'],
+    \[['map'], 'h', '<Action>(ChooseRunConfiguration)', 'Launch run target from history'],
+    \[['map'], 't', '<Action>(RerunTests)', 'Launch test run target'],
+    \[['map'], 'f', '<Action>(RerunFailedTests)', 'Launch failed tests run target'],
+    \[['map'], 't', '<Action>(Stop)', 'End run session'],
+    \])
+
+
+"" Leader symbols mode.
+call MapGroupWithDescriptions('<leader>s', 'symbols', [
+    \[['map'], 'f', '<Action>(FileStructurePopup)', 'Open symbol picker'],
+    \[['map'], 'w', '<Action>(GotoSymbol)', 'Open workspace symbol picker'],
+    \[['map'], 'c', '<Action>(GotoClass)', 'Open workspace class picker'],
+    \[['map'], 'h', '<Action>(HighlightUsagesInFile)', 'Highlight symbol references'],
+    \[['map'], 'y', '<Action>(CopyReference)', 'Yank reference'],
+    \])
+
+
+"" Leader terminal mode.
+call MapGroupWithDescriptions('<leader>t', 'terminal', [
+    \[['map'], 't', '<Action>(ActivateTerminalToolWindow)', 'Open terminal'],
+    \[['map'], 'c', '<Action>(Terminal.OpenInTerminal)', 'Open terminal at current file directory'],
+    \])
