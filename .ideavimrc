@@ -170,6 +170,11 @@ call s:MapGroupWithDescriptions(',', 'Comma', [
     \['T', '<Action>(Terminal.OpenInTerminal)', 'Open terminal at current file directory'],
     \])
 
+call s:MapGroupWithDescriptions(',e', 'Explore', [
+    \['e', '<Action>(ActivateProjectToolWindow)', 'Explore the project view'],
+    \['f', '<Action>(SelectInProjectView)', 'Select file in project view'],
+    \])
+
 call s:MapGroupWithDescriptions(',g', 'Git', [
     \['a', '<Action>(Git.Menu)', 'Actions menu'],
     \['g', '<Action>(CheckinProject)', 'Commit changes'],
